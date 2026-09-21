@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "codex-desktop-control",
+  "version": "0.2.10",
+  "description": "Local Windows desktop observation and control for authorized Codex development and visual acceptance testing.",
+  "keywords": [
+    "codex",
+    "windows",
+    "desktop",
+    "computer-use",
+    "ui-testing",
+    "mcp"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Desktop Control",
+        "shortDescription": "See and control approved Windows apps from Codex",
+        "longDescription": "Local-only Windows desktop observation and control for authorized development and visual acceptance testing.",
+        "developerName": "Local development",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ]
+      }
+    }
+  }
+}

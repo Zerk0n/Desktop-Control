@@ -1,0 +1,66 @@
+# Repository-local configuration fragment; it is not a native Codex profile selector.
+# Explicit user opt-in is required before merging it into the trusted project's config,
+# then starting a fresh Codex session. It relaxes only the state-changing prompts
+# required by the controlled TestApp flow; DesktopControl's TestApp allowlist
+# remains authoritative. enabled_tools is inherited from the trusted project and
+# is intentionally not redefined here.
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control]
+enabled = true
+default_tools_approval_mode = "prompt"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.observe"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.get_state"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.windows"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.resolve_application_window"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.ui_tree"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.find_ui"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.focus_window"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.set_window"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.move_pointer"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.click"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.drag"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.scroll"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.type_text"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.key"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.hotkey"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.activate_ui"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.wait"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.wait_for"]
+approval_mode = "approve"
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.stop"]
+approval_mode = "approve"

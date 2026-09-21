@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Codex Desktop Control Policy V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "observation",
+    "control",
+    "applications",
+    "security",
+    "logging",
+    "emergencyStop"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowFullDesktop",
+        "allowMonitors"
+      ],
+      "properties": {
+        "allowFullDesktop": {
+          "type": "boolean"
+        },
+        "allowMonitors": {
+          "type": "boolean"
+        }
+      }
+    },
+    "control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "initialStopped",
+        "maxActionsPerSecond"
+      ],
+      "properties": {
+        "initialStopped": {
+          "type": "boolean"
+        },
+        "maxActionsPerSecond": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        }
+      }
+    },
+    "applications": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "match",
+          "capabilities"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"
+          },
+          "match": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "value"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "exact-path",
+                  "executable-name-dev-only",
+                  "aumid",
+                  "win32-file-identity"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32767
+              }
+            }
+          },
+          "capabilities": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "observe_window",
+                "pointer",
+                "keyboard",
+                "window_management",
+                "uia",
+                "application_lifecycle"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "denySecureDesktop",
+        "denyHigherIntegrityTargets",
+        "allowClipboard",
+        "allowRuntimeNetwork",
+        "allowArbitraryProcessLaunch"
+      ],
+      "properties": {
+        "denySecureDesktop": {
+          "const": true
+        },
+        "denyHigherIntegrityTargets": {
+          "const": true
+        },
+        "allowClipboard": {
+          "const": false
+        },
+        "allowRuntimeNetwork": {
+          "const": false
+        },
+        "allowArbitraryProcessLaunch": {
+          "const": false
+        }
+      }
+    },
+    "logging": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "persistScreenshots",
+        "persistTypedText",
+        "persistUiTrees"
+      ],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": [
+            "error",
+            "warning",
+            "information",
+            "debug"
+          ]
+        },
+        "persistScreenshots": {
+          "const": false
+        },
+        "persistTypedText": {
+          "const": false
+        },
+        "persistUiTrees": {
+          "const": false
+        }
+      }
+    },
+    "emergencyStop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "hotkey"
+      ],
+      "properties": {
+        "enabled": {
+          "const": true
+        },
+        "hotkey": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 8,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          }
+        }
+      }
+    }
+  }
+}

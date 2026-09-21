@@ -1,0 +1,10 @@
+[
+  { "prompt": "Open Notepad and type this text.", "desktopControl": true },
+  { "prompt": "Click the Save button in this Windows application.", "desktopControl": true },
+  { "prompt": "Look at this local app and tell me what dialog is open.", "desktopControl": true },
+  { "prompt": "Native desktop automation reports no UI surface; a local Windows GUI task still needs completion.", "desktopControl": true },
+  { "prompt": "Edit a repository source file.", "desktopControl": false },
+  { "prompt": "Run unit tests.", "desktopControl": false },
+  { "prompt": "Inspect a text log.", "desktopControl": false },
+  { "prompt": "Answer a normal coding question.", "desktopControl": false }
+]

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "3.0",
+  "approvalGroups": {
+    "readView": "ASK",
+    "writeEdit": "ASK",
+    "desktopAllScreens": "ASK",
+    "systemGlobalInput": "ASK"
+  },
+  "security": {
+    "denySecureDesktop": true,
+    "denyHigherIntegrityTargets": true,
+    "allowClipboard": false,
+    "allowRuntimeNetwork": false,
+    "allowArbitraryProcessLaunch": false
+  },
+  "logging": {
+    "level": "information",
+    "persistScreenshots": false,
+    "persistTypedText": false,
+    "persistUiTrees": false
+  },
+  "emergencyStop": {
+    "enabled": true,
+    "hotkey": ["CTRL", "ALT", "SHIFT", "F12"]
+  },
+  "applications": []
+}

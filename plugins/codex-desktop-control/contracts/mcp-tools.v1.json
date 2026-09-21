@@ -1,0 +1,1101 @@
+{
+  "contractVersion": "1.4.0",
+  "serverName": "desktop-control",
+  "toolPrefix": "desktop.",
+  "coordinateSpace": "physical-virtual-desktop-pixels",
+  "tools": [
+    {
+      "name": "desktop.observe",
+      "classification": "read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "target"
+        ],
+        "properties": {
+          "target": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "desktop"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "id"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "monitor"
+                  },
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "id"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "window"
+                  },
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["kind", "rect", "within"],
+                "properties": {
+                  "kind": { "const": "region" },
+                  "rect": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["x", "y", "width", "height"],
+                    "properties": {
+                      "x": { "type": "integer" },
+                      "y": { "type": "integer" },
+                      "width": { "type": "integer", "minimum": 1 },
+                      "height": { "type": "integer", "minimum": 1 }
+                    }
+                  },
+                  "within": {
+                    "oneOf": [
+                      { "type": "object", "additionalProperties": false, "required": ["kind"], "properties": { "kind": { "const": "desktop" } } },
+                      { "type": "object", "additionalProperties": false, "required": ["kind", "id"], "properties": { "kind": { "const": "monitor" }, "id": { "type": "string", "minLength": 1, "maxLength": 200 } } },
+                      { "type": "object", "additionalProperties": false, "required": ["kind", "id"], "properties": { "kind": { "const": "window" }, "id": { "type": "string", "minLength": 1, "maxLength": 200 } } }
+                    ]
+                  }
+                }
+              }
+            ]
+          },
+          "includeCursor": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "description": "Capture current desktop, monitor, or authorized window pixels and synchronized physical-coordinate metadata.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "desktop.get_state",
+      "classification": "read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      },
+      "description": "Read current desktop-control state and metadata without returning image bytes.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "desktop.windows",
+      "classification": "read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "includeHidden": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "description": "List current top-level Windows windows with session-scoped IDs and policy-relevant metadata.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "desktop.ui_tree",
+      "classification": "read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "windowId"
+        ],
+        "properties": {
+          "windowId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "maxDepth": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12,
+            "default": 4
+          },
+          "maxNodes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2000,
+            "default": 500
+          },
+          "includeOffscreen": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "description": "Read a bounded Windows UI Automation tree for an authorized window.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "desktop.find_ui",
+      "classification": "read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "windowId",
+          "query"
+        ],
+        "properties": {
+          "windowId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "query": {
+            "type": "object",
+            "additionalProperties": false,
+            "minProperties": 1,
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "automationId": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "controlType": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "className": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "offscreen": {
+                "type": "boolean"
+              }
+            }
+          },
+          "maxResults": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          }
+        }
+      },
+      "description": "Find bounded Windows UI Automation elements in an authorized window by semantic properties.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "desktop.focus_window",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "windowId"
+        ],
+        "properties": {
+          "windowId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
+      },
+      "description": "Attempt to focus an authorized top-level window and report the actual resulting focus state.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.set_window",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "windowId"
+        ],
+        "properties": {
+          "windowId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "bounds": {
+            "$ref": "#/$defs/rect"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "minimized",
+              "maximized",
+              "restored"
+            ]
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "bounds"
+            ]
+          },
+          {
+            "required": [
+              "state"
+            ]
+          }
+        ],
+        "$defs": {
+          "rect": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "x",
+              "y",
+              "width",
+              "height"
+            ],
+            "properties": {
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      },
+      "description": "Move, resize, minimize, maximize, or restore an authorized top-level window.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.move_pointer",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "point"
+        ],
+        "properties": {
+          "point": {
+            "$ref": "#/$defs/pointRef"
+          },
+          "durationMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5000,
+            "default": 0
+          }
+        },
+        "$defs": {
+          "pointRef": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "desktop"
+                  },
+                  "x": {
+                    "type": "integer"
+                  },
+                  "y": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "observationId",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "observation"
+                  },
+                  "observationId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "x": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "y": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "description": "Move the physical Windows pointer to a desktop or observation-relative point without clicking.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.click",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "point"
+        ],
+        "properties": {
+          "point": {
+            "$ref": "#/$defs/pointRef"
+          },
+          "button": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right",
+              "middle"
+            ],
+            "default": "left"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3,
+            "default": 1
+          },
+          "modifiers": {
+            "$ref": "#/$defs/modifiers"
+          }
+        },
+        "$defs": {
+          "pointRef": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "desktop"
+                  },
+                  "x": {
+                    "type": "integer"
+                  },
+                  "y": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "observationId",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "observation"
+                  },
+                  "observationId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "x": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "y": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            ]
+          },
+          "modifiers": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 4,
+            "items": {
+              "type": "string",
+              "enum": [
+                "CTRL",
+                "SHIFT",
+                "ALT",
+                "WIN"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Issue an authorized physical mouse click at a desktop or observation-relative point.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.drag",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
+            "$ref": "#/$defs/pointRef"
+          },
+          "to": {
+            "$ref": "#/$defs/pointRef"
+          },
+          "button": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right",
+              "middle"
+            ],
+            "default": "left"
+          },
+          "durationMs": {
+            "type": "integer",
+            "minimum": 50,
+            "maximum": 10000,
+            "default": 500
+          },
+          "modifiers": {
+            "$ref": "#/$defs/modifiers"
+          }
+        },
+        "$defs": {
+          "pointRef": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "desktop"
+                  },
+                  "x": {
+                    "type": "integer"
+                  },
+                  "y": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "observationId",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "observation"
+                  },
+                  "observationId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "x": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "y": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            ]
+          },
+          "modifiers": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 4,
+            "items": {
+              "type": "string",
+              "enum": [
+                "CTRL",
+                "SHIFT",
+                "ALT",
+                "WIN"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Issue an authorized physical mouse drag between two points with balanced button state.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.scroll",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "point"
+        ],
+        "properties": {
+          "point": {
+            "$ref": "#/$defs/pointRef"
+          },
+          "deltaX": {
+            "type": "integer",
+            "minimum": -12000,
+            "maximum": 12000,
+            "default": 0
+          },
+          "deltaY": {
+            "type": "integer",
+            "minimum": -12000,
+            "maximum": 12000,
+            "default": 0
+          }
+        },
+        "$defs": {
+          "pointRef": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "desktop"
+                  },
+                  "x": {
+                    "type": "integer"
+                  },
+                  "y": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "observationId",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "observation"
+                  },
+                  "observationId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "x": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "y": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "anyOf": [
+          {
+            "required": [
+              "deltaX"
+            ],
+            "properties": {
+              "deltaX": {
+                "not": {
+                  "const": 0
+                }
+              }
+            }
+          },
+          {
+            "required": [
+              "deltaY"
+            ],
+            "properties": {
+              "deltaY": {
+                "not": {
+                  "const": 0
+                }
+              }
+            }
+          }
+        ]
+      },
+      "description": "Issue authorized physical mouse wheel scrolling at a target point.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.type_text",
+      "classification": "write-sensitive",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 10000
+          },
+          "intervalMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000,
+            "default": 0
+          }
+        }
+      },
+      "description": "Inject Unicode text into the currently authorized foreground application without logging the text.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.key",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "press",
+              "down",
+              "up"
+            ],
+            "default": "press"
+          }
+        }
+      },
+      "description": "Press, hold, or release one normalized keyboard key in the currently authorized foreground application.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.hotkey",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "keys"
+        ],
+        "properties": {
+          "keys": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 8,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32
+            },
+            "uniqueItems": true
+          }
+        }
+      },
+      "description": "Press an ordered keyboard combination and release it in reverse order in the authorized foreground application.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.activate_ui",
+      "classification": "write",
+      "inputSchema": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "elementId",
+              "action"
+            ],
+            "properties": {
+              "elementId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "action": {
+                "enum": [
+                  "invoke",
+                  "focus",
+                  "toggle",
+                  "select"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "elementId",
+              "action",
+              "value"
+            ],
+            "properties": {
+              "elementId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "action": {
+                "const": "set_value"
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 10000
+              }
+            }
+          }
+        ]
+      },
+      "description": "Invoke a supported Windows UI Automation action on a fresh authorized UI element reference.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.wait",
+      "classification": "read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "durationMs"
+        ],
+        "properties": {
+          "durationMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 60000
+          }
+        }
+      },
+      "description": "Wait for a bounded duration without changing desktop state.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "desktop.wait_for",
+      "classification": "read",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "condition"
+        ],
+        "properties": {
+          "condition": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "match"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "window_exists",
+                      "window_gone"
+                    ]
+                  },
+                  "match": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "minProperties": 1,
+                    "properties": {
+                      "windowId": {
+                        "type": "string",
+                        "maxLength": 200
+                      },
+                      "processName": {
+                        "type": "string",
+                        "maxLength": 260
+                      },
+                      "title": {
+                        "type": "string",
+                        "maxLength": 1000
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "windowId",
+                  "query"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "ui_exists",
+                      "ui_gone"
+                    ]
+                  },
+                  "windowId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "query": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "minProperties": 1,
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "maxLength": 500
+                      },
+                      "automationId": {
+                        "type": "string",
+                        "maxLength": 500
+                      },
+                      "controlType": {
+                        "type": "string",
+                        "maxLength": 200
+                      },
+                      "className": {
+                        "type": "string",
+                        "maxLength": 500
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "baselineObservationId"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "screen_change"
+                  },
+                  "baselineObservationId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "threshold": {
+                    "type": "number",
+                    "minimum": 0.0001,
+                    "maximum": 1.0,
+                    "default": 0.02
+                  }
+                }
+              }
+            ]
+          },
+          "timeoutMs": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 60000,
+            "default": 10000
+          },
+          "pollIntervalMs": {
+            "type": "integer",
+            "minimum": 25,
+            "maximum": 2000,
+            "default": 100
+          }
+        }
+      },
+      "description": "Wait for a bounded window, UI element, or deterministic screen-change condition.",
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "openWorldHint": false
+      }
+    },
+    { "name": "desktop.applications", "classification": "read", "inputSchema": { "type": "object", "additionalProperties": false, "properties": { "limit": { "type": "integer", "minimum": 1, "maximum": 100, "default": 50 } } }, "description": "Discover a bounded set of installed or running GUI applications with opaque session-bound identity references; dormant applications report no running process.", "annotations": { "readOnlyHint": true, "destructiveHint": false, "openWorldHint": false } },
+    { "name": "desktop.resolve_application_window", "classification": "read", "inputSchema": { "type": "object", "additionalProperties": false, "required": [ "applicationId" ], "properties": { "applicationId": { "type": "string", "minLength": 1, "maxLength": 200 } } }, "description": "Privately resolve usable top-level windows for one exact running application instance, authorize observe_window, and return one selected window or authorized opaque candidates without using broad window enumeration.", "annotations": { "readOnlyHint": true, "destructiveHint": false, "openWorldHint": false } },
+    { "name": "desktop.launch_application", "classification": "write", "inputSchema": { "type": "object", "additionalProperties": false, "required": [ "applicationId" ], "properties": { "applicationId": { "type": "string", "minLength": 1, "maxLength": 200 } } }, "description": "Launch a resolved authorized application without accepting a command, path, arguments, environment, or elevation request.", "annotations": { "readOnlyHint": false, "destructiveHint": true, "openWorldHint": true } },
+    { "name": "desktop.activate_application", "classification": "write", "inputSchema": { "type": "object", "additionalProperties": false, "required": [ "applicationId" ], "properties": { "applicationId": { "type": "string", "minLength": 1, "maxLength": 200 } } }, "description": "Activate a usable window proven to be owned by a resolved authorized application.", "annotations": { "readOnlyHint": false, "destructiveHint": true, "openWorldHint": true } },
+    { "name": "desktop.wait_application", "classification": "read", "inputSchema": { "type": "object", "additionalProperties": false, "required": [ "applicationId" ], "properties": { "applicationId": { "type": "string", "minLength": 1, "maxLength": 200 }, "timeoutMs": { "type": "integer", "minimum": 1, "maximum": 60000, "default": 10000 } } }, "description": "Wait a bounded time for a usable window owned by a resolved application.", "annotations": { "readOnlyHint": true, "destructiveHint": false, "openWorldHint": false } },
+    { "name": "desktop.close_application", "classification": "write", "inputSchema": { "type": "object", "additionalProperties": false, "required": [ "applicationId" ], "properties": { "applicationId": { "type": "string", "minLength": 1, "maxLength": 200 } } }, "description": "Request graceful close only for a currently owned resolved authorized application window.", "annotations": { "readOnlyHint": false, "destructiveHint": true, "openWorldHint": true } },
+    {
+      "name": "desktop.stop",
+      "classification": "safety",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 200
+          }
+        }
+      },
+      "description": "Idempotently stop further state-changing desktop control and release server-held input state.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "openWorldHint": false
+      }
+    }
+  ]
+}

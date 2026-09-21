@@ -1,0 +1,37 @@
+# Merge this supported user-level fragment into ~/.codex/config.toml after installing codex-desktop-control@desktop-control-local.
+[plugins."codex-desktop-control@desktop-control-local"]
+enabled = true
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control]
+enabled = true
+default_tools_approval_mode = "prompt"
+enabled_tools = [
+  "desktop.observe", "desktop.get_state", "desktop.windows", "desktop.ui_tree", "desktop.find_ui",
+  "desktop.focus_window", "desktop.set_window", "desktop.move_pointer", "desktop.click", "desktop.drag",
+  "desktop.scroll", "desktop.type_text", "desktop.key", "desktop.hotkey", "desktop.activate_ui",
+  "desktop.wait", "desktop.wait_for", "desktop.applications", "desktop.resolve_application_window",
+  "desktop.launch_application", "desktop.activate_application", "desktop.wait_application", "desktop.close_application", "desktop.stop"
+]
+
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.observe"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.get_state"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.windows"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.ui_tree"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.find_ui"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.wait"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.wait_for"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.applications"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.resolve_application_window"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.wait_application"]
+approval_mode = "approve"
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.stop"]
+approval_mode = "approve"

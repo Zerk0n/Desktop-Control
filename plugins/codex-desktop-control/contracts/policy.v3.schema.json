@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Codex Desktop Control Policy V3",
+  "description": "Policy contract for grouped reusable approvals and exact DENY/managed-ALLOW guardrails.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "approvalGroups", "security", "logging", "emergencyStop"],
+  "properties": {
+    "schemaVersion": { "const": "3.0" },
+    "approvalGroups": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["readView", "writeEdit", "desktopAllScreens", "systemGlobalInput"],
+      "properties": {
+        "readView": { "const": "ASK" },
+        "writeEdit": { "const": "ASK" },
+        "desktopAllScreens": { "const": "ASK" },
+        "systemGlobalInput": { "const": "ASK" }
+      }
+    },
+    "applications": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "match"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$" },
+          "match": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "value"],
+            "properties": {
+              "kind": { "type": "string", "enum": ["aumid", "win32-file-identity"] },
+              "value": { "type": "string", "minLength": 1, "maxLength": 65535 }
+            }
+          },
+          "overrides": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "readView": { "$ref": "#/$defs/override" },
+              "writeEdit": { "$ref": "#/$defs/override" },
+              "desktopAllScreens": { "$ref": "#/$defs/override" },
+              "systemGlobalInput": { "$ref": "#/$defs/override" },
+              "applicationLaunch": { "$ref": "#/$defs/override" },
+              "applicationClose": { "$ref": "#/$defs/override" }
+            }
+          }
+        }
+      }
+    },
+    "security": { "$ref": "policy.v1.schema.json#/properties/security" },
+    "logging": { "$ref": "policy.v1.schema.json#/properties/logging" },
+    "emergencyStop": { "$ref": "policy.v1.schema.json#/properties/emergencyStop" }
+  },
+  "$defs": {
+    "override": { "type": "string", "enum": ["DENY", "ALLOW"] }
+  }
+}
