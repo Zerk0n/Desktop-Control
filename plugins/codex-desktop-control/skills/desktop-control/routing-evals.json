@@ -1,10 +1,11 @@
 [
-  { "prompt": "Open Notepad and type this text.", "desktopControl": true },
-  { "prompt": "Click the Save button in this Windows application.", "desktopControl": true },
-  { "prompt": "Look at this local app and tell me what dialog is open.", "desktopControl": true },
-  { "prompt": "Native desktop automation reports no UI surface; a local Windows GUI task still needs completion.", "desktopControl": true },
-  { "prompt": "Edit a repository source file.", "desktopControl": false },
-  { "prompt": "Run unit tests.", "desktopControl": false },
-  { "prompt": "Inspect a text log.", "desktopControl": false },
-  { "prompt": "Answer a normal coding question.", "desktopControl": false }
+  { "prompt": "The target GUI application appears in an untruncated desktop.applications result; inspect its exact window.", "desktopControl": true },
+  { "prompt": "The target is absent because desktop.applications returned truncated=true; retry bounded discovery or use exact resolution instead of declaring it missing.", "desktopControl": true },
+  { "prompt": "I know the exact PID of the running Windows GUI app; prefer the private PID resolver and continue to Read/View approval.", "desktopControl": true },
+  { "prompt": "desktop.windows returned [] before approval; privately resolve the exact app/window and continue, without exposing unauthorized windows.", "desktopControl": true },
+  { "prompt": "Inspect a WPF or WinForms development app started through dotnet run, using its exact current process and window.", "desktopControl": true },
+  { "prompt": "Edit a repository source file or answer an ordinary coding question.", "desktopControl": false },
+  { "prompt": "Read a file, inspect a log, or run a shell command.", "desktopControl": false },
+  { "prompt": "Use a browser or structured API instead of native desktop interaction.", "desktopControl": false },
+  { "prompt": "Expose unauthorized windows by broadening desktop.windows discovery.", "desktopControl": false }
 ]
