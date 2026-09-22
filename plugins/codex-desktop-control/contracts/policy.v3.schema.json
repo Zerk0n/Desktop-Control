@@ -32,7 +32,7 @@
             "additionalProperties": false,
             "required": ["kind", "value"],
             "properties": {
-              "kind": { "type": "string", "enum": ["aumid", "win32-file-identity"] },
+              "kind": { "type": "string", "enum": ["aumid", "win32-file-identity", "win32-executable-name"] },
               "value": { "type": "string", "minLength": 1, "maxLength": 65535 }
             }
           },
