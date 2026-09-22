@@ -33,5 +33,3 @@ approval_mode = "approve"
 approval_mode = "approve"
 [plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.wait_application"]
 approval_mode = "approve"
-[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.stop"]
-approval_mode = "approve"

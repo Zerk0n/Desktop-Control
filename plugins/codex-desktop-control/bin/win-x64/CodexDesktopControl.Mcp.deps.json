@@ -7,10 +7,10 @@
   "targets": {
     ".NETCoreApp,Version=v10.0": {},
     ".NETCoreApp,Version=v10.0/win-x64": {
-      "CodexDesktopControl.Mcp/0.2.13": {
+      "CodexDesktopControl.Mcp/0.2.14": {
         "dependencies": {
-          "CodexDesktopControl.Core": "0.2.13",
-          "CodexDesktopControl.Windows": "0.2.13",
+          "CodexDesktopControl.Core": "0.2.14",
+          "CodexDesktopControl.Windows": "0.2.14",
           "Microsoft.Windows.CsWinRT": "2.3.1",
           "ModelContextProtocol": "2.1.0",
           "runtimepack.Microsoft.NETCore.App.Runtime.win-x64": "10.0.11",
@@ -1117,29 +1117,29 @@
           }
         }
       },
-      "CodexDesktopControl.Core/0.2.13": {
+      "CodexDesktopControl.Core/0.2.14": {
         "runtime": {
           "CodexDesktopControl.Core.dll": {
-            "assemblyVersion": "0.2.13.0",
-            "fileVersion": "0.2.13.0"
+            "assemblyVersion": "0.2.14.0",
+            "fileVersion": "0.2.14.0"
           }
         }
       },
-      "CodexDesktopControl.Windows/0.2.13": {
+      "CodexDesktopControl.Windows/0.2.14": {
         "dependencies": {
-          "CodexDesktopControl.Core": "0.2.13"
+          "CodexDesktopControl.Core": "0.2.14"
         },
         "runtime": {
           "CodexDesktopControl.Windows.dll": {
-            "assemblyVersion": "0.2.13.0",
-            "fileVersion": "0.2.13.0"
+            "assemblyVersion": "0.2.14.0",
+            "fileVersion": "0.2.14.0"
           }
         }
       }
     }
   },
   "libraries": {
-    "CodexDesktopControl.Mcp/0.2.13": {
+    "CodexDesktopControl.Mcp/0.2.14": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -1250,12 +1250,12 @@
       "path": "modelcontextprotocol.core/2.1.0",
       "hashPath": "modelcontextprotocol.core.2.1.0.nupkg.sha512"
     },
-    "CodexDesktopControl.Core/0.2.13": {
+    "CodexDesktopControl.Core/0.2.14": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "CodexDesktopControl.Windows/0.2.13": {
+    "CodexDesktopControl.Windows/0.2.14": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

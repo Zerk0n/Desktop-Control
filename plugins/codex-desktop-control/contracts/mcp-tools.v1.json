@@ -1091,7 +1091,7 @@
           }
         }
       },
-      "description": "Idempotently stop further state-changing desktop control and release server-held input state.",
+      "description": "Only for an explicit operator-requested global input stop: latch this server session into input-stopped state and release server-held input. Not normal cleanup, focus reset, or task completion.",
       "annotations": {
         "readOnlyHint": false,
         "destructiveHint": false,

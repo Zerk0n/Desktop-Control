@@ -2,9 +2,9 @@
   "schemaVersion": "1.0",
   "marketplaceName": "desktop-control-local",
   "pluginName": "codex-desktop-control",
-  "pluginVersion": "0.2.13",
+  "pluginVersion": "0.2.14",
   "serverName": "codex-desktop-control",
-  "serverVersion": "0.2.13",
+  "serverVersion": "0.2.14",
   "mcpContractVersion": "1.7.0",
   "files": [
     {
@@ -35,32 +35,32 @@
     {
       "path": "bin/win-x64/CodexDesktopControl.Core.dll",
       "length": 4608,
-      "sha256": "c17502176decb4de62b7ef15cf5327ec5100a0f417fbf6223c6aebdee15583d9"
+      "sha256": "183b93806ae29c8e106a75d9549ba66846cd9ab642ccba1721697b79e510433a"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Core.pdb",
       "length": 11376,
-      "sha256": "50c2346474b2b3b0aa79eab7f12b575576773a3f424f492a791ac090d9d7db60"
+      "sha256": "7b9e257019756c30b288a74decee3f88cf31d996c20f7ba51aa6c573e3f6b63e"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.deps.json",
       "length": 47545,
-      "sha256": "9cd816c6b7b2d3bf2277e8e18489f5da84c8dea8a4a5263ad297196ea07a6e62"
+      "sha256": "e66daeae0225cd4294b0fc15d036447865534097a7c7194fcb0e44f4963f3069"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.dll",
       "length": 349184,
-      "sha256": "718961940f14e2f59c5ece6b9d66e1d01bcb7efeb6fc24cec180b74e0219ad3c"
+      "sha256": "630b18ebc639ec17dbacdc1dab985119af6cba7ed9b63a6500c3df9db1175cac"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.exe",
       "length": 162816,
-      "sha256": "b446d583f090eec8640e1ac7fee5b4c4ec6f896e1e43a00fa6d6ab18d704d648"
+      "sha256": "b1d7da85676fea2a7e6d14ebb494851315cf2532a5054ad0e33a8cbf46b33e45"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.pdb",
       "length": 65640,
-      "sha256": "bf52caeece68b31ea92032ebd76846831c294dbd89a1eecf8efc281471a1a497"
+      "sha256": "15eb3c6da390733b1d7c58a4ffdf21615ee2851929c7038afdac6ef2ec159393"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.runtimeconfig.json",
@@ -70,12 +70,12 @@
     {
       "path": "bin/win-x64/CodexDesktopControl.Windows.dll",
       "length": 4608,
-      "sha256": "f430469b0944563b3395fede39581c6c6ceee74e2ac8916113d6b31c3e531390"
+      "sha256": "3d82c797ea160b96779c7643c0436f4a37236aa72bc474962957ae6a1131aae9"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Windows.pdb",
       "length": 11440,
-      "sha256": "92d850b154ae0e30887718fcd1febff67f235775461371ee02dffb55c071c662"
+      "sha256": "0c21409487e57d04a9463889c01e762f94fba421387f90e7249cf738130b08fa"
     },
     {
       "path": "bin/win-x64/coreclr.dll",
@@ -2099,8 +2099,8 @@
     },
     {
       "path": "config/autonomous-testapp-profile.toml",
-      "length": 3181,
-      "sha256": "3ea60b7d6420c8a3f2cef0002ac0627105c7e852243097d7879091d872a74f61"
+      "length": 3049,
+      "sha256": "4ea9bf18998ada71d266771cda0b3c2939beac4040aa2a8091e009d537482464"
     },
     {
       "path": "config/default-policy.json",
@@ -2109,13 +2109,13 @@
     },
     {
       "path": "config/user-plugin.toml",
-      "length": 2403,
-      "sha256": "8ceff6ab00320921272afe4c0a6c8e8e449c47e1c96401e04115b440d8555485"
+      "length": 2272,
+      "sha256": "22ac089a56e7db157fd9129d2ea7eaac7ed56aea19d758256f938e563d8ff347"
     },
     {
       "path": "contracts/mcp-tools.v1.json",
-      "length": 33978,
-      "sha256": "cb787662c37c3851bfb1f4db75bcfdc0757546f94f07651b0180bcb077d5ee1b"
+      "length": 34078,
+      "sha256": "ed1308acbc64b77da9034d6f5e4faff936dcb50ae8fc2991cd511b524e8c50a8"
     },
     {
       "path": "contracts/policy.v1.schema.json",
@@ -2140,7 +2140,7 @@
     {
       "path": "plugin.json",
       "length": 900,
-      "sha256": "2353f0a708d149f0501695036eb999444c3f2e59f7b9f7e9c202149e8fbb2d11"
+      "sha256": "b0a13381a2dccacf53165c10286f2552cd80ca0bbcef91bdb6fe9dddf6e40b42"
     },
     {
       "path": "skills/desktop-control/routing-evals.json",
@@ -2149,8 +2149,8 @@
     },
     {
       "path": "skills/desktop-control/SKILL.md",
-      "length": 2656,
-      "sha256": "942ad82f3d7980c8660680fd3a77da1865260dc14f8f7ebde1d7ad918a06e7eb"
+      "length": 2806,
+      "sha256": "066c71a0e97a84d4781e1a29fbe7709913ec15ca1def77f96df860c1de420ab7"
     }
   ]
 }
