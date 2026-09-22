@@ -2,10 +2,10 @@
   "schemaVersion": "1.0",
   "marketplaceName": "desktop-control-local",
   "pluginName": "codex-desktop-control",
-  "pluginVersion": "0.2.11",
+  "pluginVersion": "0.2.12",
   "serverName": "codex-desktop-control",
-  "serverVersion": "0.2.11",
-  "mcpContractVersion": "1.5.0",
+  "serverVersion": "0.2.12",
+  "mcpContractVersion": "1.6.0",
   "files": [
     {
       "path": "bin/win-x64/Accessibility.dll",
@@ -35,32 +35,32 @@
     {
       "path": "bin/win-x64/CodexDesktopControl.Core.dll",
       "length": 4608,
-      "sha256": "8d91bbafc40325c586e9f8cf67da6c90ca21c55f6e2f42ffec235ac486a5cd6c"
+      "sha256": "fcd2530ee0600ebe89e9534b4a25ec6a87c536e2438a9a32eb0d34442ec4d5f3"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Core.pdb",
       "length": 11376,
-      "sha256": "9f9ae350b8c030575c463008b927eac6d760d702ce05703610fe46a11c741194"
+      "sha256": "34e667e2d458c499c74848540aa0c9e2a5f600d769bcccd290fa73ccc85aa774"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.deps.json",
       "length": 47545,
-      "sha256": "56fb71935a55fc08a54e6a4f0cb2a646a427b94e67446b1cd3d8f5761bc070cf"
+      "sha256": "908f05d6ec9e97945b5088b9a75fe82796662a0cf3ac437f01996a6bfbbb849f"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.dll",
-      "length": 315904,
-      "sha256": "5da8f90585fda73f9fa3b2a59c652d078d588ce38bb2776bb0b69c74e45698d4"
+      "length": 345088,
+      "sha256": "3375fb98b00bc1b835bfe0c1bc994a8152e187415485df684787199021156d06"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.exe",
       "length": 162816,
-      "sha256": "d01c711de450bfc3bc2b81ef3887a40e5167acad75ad7e5a173dd83e8bc86e85"
+      "sha256": "72f30720ea31b943b9097fc969185a6b8f706badaab219a33967529885553093"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.pdb",
-      "length": 60392,
-      "sha256": "40cf7ba499bfa53604110e958b55c068fb4ff20f6db8c795df57e04464a897e1"
+      "length": 65092,
+      "sha256": "4e6a934341328922d5f966410c33ea4385a6d3c5e2ca0826161a19f133e4d1b2"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.runtimeconfig.json",
@@ -70,12 +70,12 @@
     {
       "path": "bin/win-x64/CodexDesktopControl.Windows.dll",
       "length": 4608,
-      "sha256": "d5eb1253f40c12901967b51d0f36e90aa391d03f4adfa6bcdb3bcb09946db8d2"
+      "sha256": "c45c75d253427a97e3a780f0cb316ad33e7b01ac4ce3a596e317a819b87f53c9"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Windows.pdb",
       "length": 11440,
-      "sha256": "f24726f250ce9859916150c031f4c10c346af543f6d3792c20f56cf9a85ed724"
+      "sha256": "aa1132c3f4b6ea940f6c6c9d44193a96e7c989671cff7501d65904df33534a90"
     },
     {
       "path": "bin/win-x64/coreclr.dll",
@@ -2114,8 +2114,8 @@
     },
     {
       "path": "contracts/mcp-tools.v1.json",
-      "length": 32953,
-      "sha256": "2e553d27b76c7099d7ca33a6c5649f4d6a0255f35feabc32984d6671662f2bfe"
+      "length": 33813,
+      "sha256": "1d44314bf6e60361c15546e2e7dffd8cf302946a81967403a78c19c539189cda"
     },
     {
       "path": "contracts/policy.v1.schema.json",
@@ -2140,7 +2140,7 @@
     {
       "path": "plugin.json",
       "length": 900,
-      "sha256": "3b107688a6e809d038f2278b72d4b87eaaa271d69dec69bb0da1229fb8c832ad"
+      "sha256": "51fdd4e896fa13442ced91a0c6f46b2fe85af2086e866c836c59fc61500fdaf3"
     },
     {
       "path": "skills/desktop-control/routing-evals.json",
