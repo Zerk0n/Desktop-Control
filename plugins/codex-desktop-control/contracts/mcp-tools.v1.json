@@ -749,7 +749,7 @@
           }
         ]
       },
-      "description": "Issue authorized physical mouse wheel scrolling at a target point.",
+      "description": "Issue authorized physical mouse wheel scrolling at a target point; every non-zero delta produces at least one effective Windows wheel step.",
       "annotations": {
         "readOnlyHint": false,
         "destructiveHint": true,
