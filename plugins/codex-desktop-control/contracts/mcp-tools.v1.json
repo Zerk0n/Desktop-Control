@@ -1,5 +1,5 @@
 {
-  "contractVersion": "1.7.0",
+  "contractVersion": "1.24.0",
   "serverName": "desktop-control",
   "toolPrefix": "desktop.",
   "coordinateSpace": "physical-virtual-desktop-pixels",
@@ -95,10 +95,21 @@
           "includeCursor": {
             "type": "boolean",
             "default": true
+          },
+          "includeUiState": {
+            "type": "boolean",
+            "default": false,
+            "description": "For a window, include a complete bounded control-state snapshot; requires independent explicit UIA read authority."
+          },
+          "sinceObservationId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "For the same window, return cumulative changes since this server-lifetime full observation baseline."
           }
         }
       },
-      "description": "Capture current desktop, monitor, or authorized window pixels and synchronized physical-coordinate metadata.",
+      "description": "Capture current desktop, monitor, or authorized window pixels and physical-coordinate metadata; optionally return bounded window changes since an authorized baseline.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -111,9 +122,15 @@
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
-        "properties": {}
+        "properties": {
+          "operationId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        }
       },
-      "description": "Read current desktop-control state and metadata without returning image bytes.",
+      "description": "Read current desktop-control state and metadata without returning image bytes. Reports private-human status and bounded content-free operation certainty for this server lifetime; unknown prior-server operations require fresh reconciliation, never replay.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -239,6 +256,24 @@
         "destructiveHint": false,
         "openWorldHint": false
       }
+    },
+    {
+      "name": "desktop.capabilities",
+      "classification": "read",
+      "inputSchema": {
+        "type": "object", "additionalProperties": false, "required": ["windowId"],
+        "not": { "required": ["query", "elementId"] },
+        "properties": {
+          "windowId": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "elementId": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "query": { "type": "object", "additionalProperties": false, "minProperties": 1,
+            "properties": { "name": { "type": "string", "maxLength": 500 }, "automationId": { "type": "string", "maxLength": 500 },
+              "controlType": { "type": "string", "maxLength": 200 }, "className": { "type": "string", "maxLength": 500 },
+              "enabled": { "type": "boolean" }, "offscreen": { "type": "boolean" } } }
+        }
+      },
+      "description": "Inspect bounded current capability admission for one authorized window and optionally one uniquely resolved query or exact server-lifetime elementId. No prompt, UI mutation, permission grant, sensitive readback, or target reacquisition occurs. eligible is current prerequisite evidence, not an execution reservation; conditional operations still require action-specific and last-moment dispatch guards. Unsupported, prerequisite, authorization and evidence failures stay distinct.",
+      "annotations": { "readOnlyHint": true, "destructiveHint": false, "openWorldHint": false }
     },
     {
       "name": "desktop.focus_window",
@@ -871,7 +906,10 @@
                   "invoke",
                   "focus",
                   "toggle",
-                  "select"
+                  "select",
+                  "expand",
+                  "collapse",
+                  "scroll_into_view"
                 ]
               }
             }
@@ -898,10 +936,68 @@
                 "maxLength": 10000
               }
             }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "elementId",
+              "action",
+              "rangeValue"
+            ],
+            "properties": {
+              "elementId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "action": {
+                "const": "set_range_value"
+              },
+              "rangeValue": {
+                "type": "number"
+              }
+            }
           }
         ]
       },
-      "description": "Invoke a supported Windows UI Automation action on a fresh authorized UI element reference.",
+      "description": "Exact provider-backed semantic action on an independently authorized element. New expand/collapse, set_range_value and scroll_into_view require explicit UI-read ALLOW for bounded state verification; no generic background guarantee. Returns dispatch/effect certainty, never retry authority.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.interact",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mode",
+          "windowId",
+          "intent",
+          "value"
+        ],
+        "properties": {
+          "mode": { "enum": ["background_only", "background_first"] },
+          "windowId": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "intent": { "const": "set_value" },
+          "value": { "type": "string", "maxLength": 10000 },
+          "elementId": { "type": "string", "minLength": 1, "maxLength": 200 },
+          "query": {
+            "type": "object", "additionalProperties": false, "minProperties": 1,
+            "properties": {
+              "name": { "type": "string", "maxLength": 500 }, "automationId": { "type": "string", "maxLength": 500 },
+              "controlType": { "type": "string", "maxLength": 100 }, "className": { "type": "string", "maxLength": 500 },
+              "enabled": { "type": "boolean" }, "offscreen": { "type": "boolean" }
+            }
+          }
+        },
+        "oneOf": [{ "required": ["query"] }, { "required": ["elementId"] }]
+      },
+      "description": "Set one control value using exactly one same-window query or server-lifetime elementId. Required background_only never uses physical input. Explicit background_first prefers native Win32 Edit; only proven pre-dispatch background ineligibility may use an exact-control WPF TextBox click/select-all/Unicode replacement with independent pointer/keyboard authority and explicit UI-read ALLOW. Physical fallback may change foreground/cursor. Exact-value evidence proves current state, not causal success. No retry or strategy switch after possible dispatch; human priority, bounded pause and unsafe-resume guards remain in force. Receipts expose selected strategy and ordered physical steps without raw values.",
       "annotations": {
         "readOnlyHint": false,
         "destructiveHint": true,
@@ -925,7 +1021,7 @@
           }
         }
       },
-      "description": "Wait for a bounded duration without changing desktop state.",
+      "description": "Wait for a bounded duration without changing desktop state; MCP request cancellation or Stop interrupts the wait.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -938,6 +1034,37 @@
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
+        "$defs": {
+          "positiveUiQuery": {
+            "type": "object",
+            "additionalProperties": false,
+            "minProperties": 1,
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "automationId": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "controlType": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "className": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "offscreen": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
         "required": [
           "condition"
         ],
@@ -953,10 +1080,7 @@
                 ],
                 "properties": {
                   "kind": {
-                    "enum": [
-                      "window_exists",
-                      "window_gone"
-                    ]
+                    "const": "window_exists"
                   },
                   "match": {
                     "type": "object",
@@ -984,15 +1108,39 @@
                 "additionalProperties": false,
                 "required": [
                   "kind",
+                  "match"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "window_gone"
+                  },
+                  "match": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "windowId"
+                    ],
+                    "properties": {
+                      "windowId": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
                   "windowId",
                   "query"
                 ],
                 "properties": {
                   "kind": {
-                    "enum": [
-                      "ui_exists",
-                      "ui_gone"
-                    ]
+                    "const": "ui_gone"
                   },
                   "windowId": {
                     "type": "string",
@@ -1029,6 +1177,170 @@
                 "additionalProperties": false,
                 "required": [
                   "kind",
+                  "windowId"
+                ],
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "ui_exists",
+                      "ui_value_equals",
+                      "ui_toggle_state",
+                      "ui_selection_state"
+                    ]
+                  },
+                  "windowId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "query": {
+                    "$ref": "#/$defs/positiveUiQuery"
+                  },
+                  "elementId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "value": {
+                    "type": "string",
+                    "maxLength": 10000
+                  },
+                  "state": {
+                    "enum": [
+                      "on",
+                      "off",
+                      "indeterminate"
+                    ]
+                  },
+                  "selected": {
+                    "type": "boolean"
+                  }
+                },
+                "allOf": [
+                  {
+                    "oneOf": [
+                      {
+                        "required": [
+                          "query"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "elementId"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "oneOf": [
+                  {
+                    "properties": {
+                      "kind": {
+                        "const": "ui_exists"
+                      }
+                    },
+                    "required": [
+                      "query"
+                    ],
+                    "not": {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "value"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "state"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "selected"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "properties": {
+                      "kind": {
+                        "const": "ui_value_equals"
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ],
+                    "not": {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "state"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "selected"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "properties": {
+                      "kind": {
+                        "const": "ui_toggle_state"
+                      }
+                    },
+                    "required": [
+                      "state"
+                    ],
+                    "not": {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "value"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "selected"
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "properties": {
+                      "kind": {
+                        "const": "ui_selection_state"
+                      }
+                    },
+                    "required": [
+                      "selected"
+                    ],
+                    "not": {
+                      "anyOf": [
+                        {
+                          "required": [
+                            "value"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "state"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
                   "baselineObservationId"
                 ],
                 "properties": {
@@ -1043,8 +1355,337 @@
                   "threshold": {
                     "type": "number",
                     "minimum": 0.0001,
-                    "maximum": 1.0,
-                    "default": 0.02
+                    "maximum": 1,
+                    "default": 0.02,
+                    "description": "Inclusive minimum fraction of physical pixels with different decoded BGRA values in compatible captures. Zero is invalid; omitted uses 0.02."
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "baselineObservationId",
+                  "stableForMs"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "observation_stable"
+                  },
+                  "baselineObservationId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "stableForMs": {
+                    "type": "integer",
+                    "minimum": 100,
+                    "maximum": 30000,
+                    "description": "Minimum sampled quiet interval after a fresh complete sample. Any observed pixel or supported UI-state change resets it; requires an includeUiState window baseline and independent observation/UI-read authority."
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "windowId",
+                  "elementId"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "element_gone"
+                  },
+                  "windowId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "elementId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "conditions"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "any_of"
+                  },
+                  "conditions": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 8,
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "kind",
+                            "match"
+                          ],
+                          "properties": {
+                            "kind": {
+                              "const": "window_gone"
+                            },
+                            "match": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "required": [
+                                "windowId"
+                              ],
+                              "properties": {
+                                "windowId": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 200
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "kind",
+                            "windowId",
+                            "query"
+                          ],
+                          "properties": {
+                            "kind": {
+                              "const": "ui_gone"
+                            },
+                            "windowId": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "query": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "minProperties": 1,
+                              "properties": {
+                                "name": {
+                                  "type": "string",
+                                  "maxLength": 500
+                                },
+                                "automationId": {
+                                  "type": "string",
+                                  "maxLength": 500
+                                },
+                                "controlType": {
+                                  "type": "string",
+                                  "maxLength": 200
+                                },
+                                "className": {
+                                  "type": "string",
+                                  "maxLength": 500
+                                }
+                              }
+                            }
+                          }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "kind",
+                            "windowId"
+                          ],
+                          "properties": {
+                            "kind": {
+                              "enum": [
+                                "ui_exists",
+                                "ui_value_equals",
+                                "ui_toggle_state",
+                                "ui_selection_state"
+                              ]
+                            },
+                            "windowId": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "query": {
+                              "$ref": "#/$defs/positiveUiQuery"
+                            },
+                            "elementId": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "value": {
+                              "type": "string",
+                              "maxLength": 10000
+                            },
+                            "state": {
+                              "enum": [
+                                "on",
+                                "off",
+                                "indeterminate"
+                              ]
+                            },
+                            "selected": {
+                              "type": "boolean"
+                            }
+                          },
+                          "allOf": [
+                            {
+                              "oneOf": [
+                                {
+                                  "required": [
+                                    "query"
+                                  ]
+                                },
+                                {
+                                  "required": [
+                                    "elementId"
+                                  ]
+                                }
+                              ]
+                            }
+                          ],
+                          "oneOf": [
+                            {
+                              "properties": {
+                                "kind": {
+                                  "const": "ui_exists"
+                                }
+                              },
+                              "required": [
+                                "query"
+                              ],
+                              "not": {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "value"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "state"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "selected"
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "properties": {
+                                "kind": {
+                                  "const": "ui_value_equals"
+                                }
+                              },
+                              "required": [
+                                "value"
+                              ],
+                              "not": {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "state"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "selected"
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "properties": {
+                                "kind": {
+                                  "const": "ui_toggle_state"
+                                }
+                              },
+                              "required": [
+                                "state"
+                              ],
+                              "not": {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "value"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "selected"
+                                    ]
+                                  }
+                                ]
+                              }
+                            },
+                            {
+                              "properties": {
+                                "kind": {
+                                  "const": "ui_selection_state"
+                                }
+                              },
+                              "required": [
+                                "selected"
+                              ],
+                              "not": {
+                                "anyOf": [
+                                  {
+                                    "required": [
+                                      "value"
+                                    ]
+                                  },
+                                  {
+                                    "required": [
+                                      "state"
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "kind",
+                            "windowId",
+                            "elementId"
+                          ],
+                          "properties": {
+                            "kind": {
+                              "const": "element_gone"
+                            },
+                            "windowId": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "elementId": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            }
+                          }
+                        }
+                      ]
+                    }
                   }
                 }
               }
@@ -1064,7 +1705,7 @@
           }
         }
       },
-      "description": "Wait for a bounded window, UI element, or deterministic screen-change condition.",
+      "description": "Wait for a bounded window, UI state, screen change or observation_stable condition. element_gone initially admits one live exact elementId and proves its absence from a complete authorized ControlView sample inside the still-live bound window; ui_gone remains query-empty. observation_stable compares successive complete compatible pixel/UI samples for stableForMs, not semantic readiness or future stability. Typed-state waits select exactly one same-window query or server-lifetime elementId. UI waits require explicit UI-read ALLOW; observation_stable also requires independently authorized capture. Guarded waits return matched/timed_out/unavailable/interrupted and never acquire physical input. any_of races 2–8 guarded UI/exact-window-disappearance conditions under one deadline in round-robin order; first observed match wins (array order breaks a simultaneous match), unavailable admission/evidence terminates, and unsampled losing work never starts.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -1078,6 +1719,631 @@
     { "name": "desktop.activate_application", "classification": "write", "inputSchema": { "type": "object", "additionalProperties": false, "required": [ "applicationId" ], "properties": { "applicationId": { "type": "string", "minLength": 1, "maxLength": 200 } } }, "description": "Activate a usable window proven to be owned by a resolved authorized application.", "annotations": { "readOnlyHint": false, "destructiveHint": true, "openWorldHint": true } },
     { "name": "desktop.wait_application", "classification": "read", "inputSchema": { "type": "object", "additionalProperties": false, "required": [ "applicationId" ], "properties": { "applicationId": { "type": "string", "minLength": 1, "maxLength": 200 }, "timeoutMs": { "type": "integer", "minimum": 1, "maximum": 60000, "default": 10000 } } }, "description": "Wait a bounded time for a usable window owned by a resolved application.", "annotations": { "readOnlyHint": true, "destructiveHint": false, "openWorldHint": false } },
     { "name": "desktop.close_application", "classification": "write", "inputSchema": { "type": "object", "additionalProperties": false, "required": [ "applicationId" ], "properties": { "applicationId": { "type": "string", "minLength": 1, "maxLength": 200 } } }, "description": "Request graceful close only for a currently owned resolved authorized application window.", "annotations": { "readOnlyHint": false, "destructiveHint": true, "openWorldHint": true } },
+    {
+      "name": "desktop.act",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "windowId",
+          "actions"
+        ],
+        "properties": {
+          "windowId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "actions": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 8,
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "point"
+                  ],
+                  "properties": {
+                    "postcondition": {
+                      "$ref": "#/$defs/uiPostcondition"
+                    },
+                    "kind": {
+                      "const": "move"
+                    },
+                    "point": {
+                      "$ref": "#/$defs/pointRef"
+                    },
+                    "frameObservationId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "point"
+                  ],
+                  "properties": {
+                    "postcondition": {
+                      "$ref": "#/$defs/uiPostcondition"
+                    },
+                    "kind": {
+                      "const": "click"
+                    },
+                    "point": {
+                      "$ref": "#/$defs/pointRef"
+                    },
+                    "frameObservationId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "point"
+                  ],
+                  "properties": {
+                    "postcondition": {
+                      "$ref": "#/$defs/uiPostcondition"
+                    },
+                    "kind": {
+                      "const": "double_click"
+                    },
+                    "point": {
+                      "$ref": "#/$defs/pointRef"
+                    },
+                    "frameObservationId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "from",
+                    "to"
+                  ],
+                  "properties": {
+                    "postcondition": {
+                      "$ref": "#/$defs/uiPostcondition"
+                    },
+                    "kind": {
+                      "const": "drag"
+                    },
+                    "from": {
+                      "$ref": "#/$defs/pointRef"
+                    },
+                    "to": {
+                      "$ref": "#/$defs/pointRef"
+                    },
+                    "button": {
+                      "type": "string",
+                      "enum": [
+                        "left",
+                        "right",
+                        "middle"
+                      ],
+                      "default": "left"
+                    },
+                    "durationMs": {
+                      "type": "integer",
+                      "minimum": 50,
+                      "maximum": 10000,
+                      "default": 500
+                    },
+                    "frameObservationId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "point"
+                  ],
+                  "properties": {
+                    "postcondition": {
+                      "$ref": "#/$defs/uiPostcondition"
+                    },
+                    "kind": {
+                      "const": "scroll"
+                    },
+                    "point": {
+                      "$ref": "#/$defs/pointRef"
+                    },
+                    "deltaX": {
+                      "type": "integer",
+                      "minimum": -12000,
+                      "maximum": 12000,
+                      "default": 0
+                    },
+                    "deltaY": {
+                      "type": "integer",
+                      "minimum": -12000,
+                      "maximum": 12000,
+                      "default": 0
+                    },
+                    "frameObservationId": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200
+                    }
+                  },
+                  "anyOf": [
+                    {
+                      "required": [
+                        "deltaX"
+                      ],
+                      "properties": {
+                        "deltaX": {
+                          "not": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "required": [
+                        "deltaY"
+                      ],
+                      "properties": {
+                        "deltaY": {
+                          "not": {
+                            "const": 0
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "keys"
+                  ],
+                  "properties": {
+                    "postcondition": {
+                      "$ref": "#/$defs/uiPostcondition"
+                    },
+                    "kind": {
+                      "const": "keypress"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "minItems": 1,
+                      "maxItems": 8,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 32
+                      },
+                      "uniqueItems": true
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "text"
+                  ],
+                  "properties": {
+                    "postcondition": {
+                      "$ref": "#/$defs/uiPostcondition"
+                    },
+                    "kind": {
+                      "const": "type"
+                    },
+                    "text": {
+                      "type": "string",
+                      "maxLength": 10000
+                    },
+                    "intervalMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 1000,
+                      "default": 0
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "durationMs"
+                  ],
+                  "properties": {
+                    "postcondition": {
+                      "$ref": "#/$defs/uiPostcondition"
+                    },
+                    "kind": {
+                      "const": "wait"
+                    },
+                    "durationMs": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 60000
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "finalObservation": {
+            "type": "boolean",
+            "default": false
+          },
+          "postStateSinceObservationId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          }
+        },
+        "$defs": {
+          "uiPostcondition": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "ui_exists",
+                  "ui_value_equals",
+                  "ui_toggle_state",
+                  "ui_selection_state"
+                ]
+              },
+              "query": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "automationId": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "controlType": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "className": {
+                    "type": "string",
+                    "maxLength": 500
+                  },
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "offscreen": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "elementId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "timeoutMs": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 60000,
+                "default": 10000
+              },
+              "pollIntervalMs": {
+                "type": "integer",
+                "minimum": 25,
+                "maximum": 2000,
+                "default": 100
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 10000
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "on",
+                  "off",
+                  "indeterminate"
+                ]
+              },
+              "selected": {
+                "type": "boolean"
+              }
+            },
+            "allOf": [
+              {
+                "oneOf": [
+                  {
+                    "required": [
+                      "query"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "elementId"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "oneOf": [
+              {
+                "properties": {
+                  "kind": {
+                    "const": "ui_exists"
+                  }
+                },
+                "required": [
+                  "query"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "state"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "selected"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "properties": {
+                  "kind": {
+                    "const": "ui_value_equals"
+                  }
+                },
+                "required": [
+                  "value"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "state"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "selected"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "properties": {
+                  "kind": {
+                    "const": "ui_toggle_state"
+                  }
+                },
+                "required": [
+                  "state"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "selected"
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "properties": {
+                  "kind": {
+                    "const": "ui_selection_state"
+                  }
+                },
+                "required": [
+                  "selected"
+                ],
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [
+                        "value"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "state"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "pointRef": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "desktop"
+                  },
+                  "x": {
+                    "type": "integer"
+                  },
+                  "y": {
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "space",
+                  "observationId",
+                  "x",
+                  "y"
+                ],
+                "properties": {
+                  "space": {
+                    "const": "observation"
+                  },
+                  "observationId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "x": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "y": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "description": "Execute a bounded ordered move/click/double_click/drag/scroll/keypress/type/wait batch inside one authorized window. Human input pauses safe-boundary work by default: 1000ms quiet with no human-held input, at most 30000ms cumulative pause. Partial mutations never replay; after a pause only revalidated move/wait can continue without a control/caret oracle. Duration waits keep their wall-clock deadline. Optional per-action ui_exists query or UIA value/toggle/selection postconditions (exactly one query or server-lifetime elementId) require explicit Read / View ALLOW before any mutation. Value comparison is exact and protected values are rejected. verified means the predicate was observed, not causal/business success. Only genuine human interruption with proven owned-input cleanup and a matched ui_value_equals/ui_toggle_state/ui_selection_state predicate permits recovery advancement; execution stays uncertain and the next action still requires fresh safety revalidation. ui_exists cannot permit recovery. All other uncertain execution and unresolved verification stop later actions; no replay is authorized. finalObservation is opt-in and separately Read / View authorized. Canonical guarded physical/visual coordinator: optional per-pointer-action frameObservationId requires observation-local points and fresh identical same-window pixels before first dispatch. Optional postStateSinceObservationId returns separately authorized incremental post-state instead of a full final image; neither image nor delta proves intended effect.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.run",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "steps"
+        ],
+        "properties": {
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "tool",
+                "arguments"
+              ],
+              "properties": {
+                "tool": {
+                  "enum": [
+                    "observe",
+                    "capabilities",
+                    "interact",
+                    "activate_ui",
+                    "act",
+                    "wait_for"
+                  ]
+                },
+                "arguments": {
+                  "type": "object",
+                  "description": "The ordinary arguments of desktop.<tool>; that canonical tool schema and runtime parser remain authoritative. No script or generated argument substitution."
+                }
+              }
+            }
+          },
+          "timeoutMs": {
+            "type": "integer",
+            "minimum": 100,
+            "maximum": 60000,
+            "default": 60000
+          }
+        }
+      },
+      "description": "Canonical finite desktop sequence: 1–16 explicit observe/capabilities/interact/activate_ui/act/wait_for calls, up to 60 seconds and 256 KiB structured receipts. Each step independently uses normal authorization/admission; terminal failure or possible side-effect uncertainty stops later steps. No script, loop, retry, target substitution or transferable approval. Current observation references/post-state are returned without redundant image transfer; request desktop.observe explicitly when an image is needed. Entire input is bounded to 64 KiB UTF-8.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "desktop.human_control",
+      "classification": "write",
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "action"
+        ],
+        "properties": {
+          "action": {
+            "enum": [
+              "begin_private",
+              "resume"
+            ]
+          }
+        }
+      },
+      "description": "Enter explicit private human control across participating current-user/logon-session servers. Agent reads/input are blocked and queues drained before successful protection acknowledgement. Resume needs protected local human confirmation, invalidates old evidence and requires a fresh authorized observation before mutation. Stop remains terminal. Does not protect older non-participating installed runtimes or grant application authority.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "openWorldHint": false
+      }
+    },
     {
       "name": "desktop.stop",
       "classification": "safety",

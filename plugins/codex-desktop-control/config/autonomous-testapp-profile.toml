@@ -56,6 +56,9 @@ approval_mode = "approve"
 [plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.activate_ui"]
 approval_mode = "approve"
 
+[plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.interact"]
+approval_mode = "approve"
+
 [plugins."codex-desktop-control@desktop-control-local".mcp_servers.desktop-control.tools."desktop.wait"]
 approval_mode = "approve"
 

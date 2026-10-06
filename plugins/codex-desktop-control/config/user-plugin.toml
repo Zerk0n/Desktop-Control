@@ -8,8 +8,9 @@ default_tools_approval_mode = "prompt"
 enabled_tools = [
   "desktop.observe", "desktop.get_state", "desktop.windows", "desktop.ui_tree", "desktop.find_ui",
   "desktop.focus_window", "desktop.set_window", "desktop.move_pointer", "desktop.click", "desktop.drag",
-  "desktop.scroll", "desktop.type_text", "desktop.key", "desktop.hotkey", "desktop.activate_ui",
-  "desktop.wait", "desktop.wait_for", "desktop.applications", "desktop.resolve_application_window",
+  "desktop.scroll", "desktop.type_text", "desktop.key", "desktop.hotkey", "desktop.activate_ui", "desktop.interact", "desktop.act",
+  "desktop.capabilities", "desktop.run", "desktop.human_control",
+  "desktop.wait", "desktop.wait_for", "desktop.applications", "desktop.resolve_application_window", "desktop.set_application_allow",
   "desktop.launch_application", "desktop.activate_application", "desktop.wait_application", "desktop.close_application", "desktop.stop"
 ]
 

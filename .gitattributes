@@ -1,0 +1,2 @@
+/.agents/plugins/marketplace.json -text
+/plugins/codex-desktop-control/** -text whitespace=cr-at-eol
