@@ -2,11 +2,11 @@
   "schemaVersion": "1.0",
   "marketplaceName": "desktop-control-local",
   "pluginName": "codex-desktop-control",
-  "pluginVersion": "0.4.1",
+  "pluginVersion": "0.4.2",
   "serverName": "codex-desktop-control",
-  "serverVersion": "0.4.1",
+  "serverVersion": "0.4.2",
   "mcpContractVersion": "1.24.0",
-  "sourceRevision": "c4a66ecc9eda268f7fbb102c56b5271ec0d2cbd4",
+  "sourceRevision": "54e2dd58c525b03d4cb5c299a5b93b2e3acdeca9",
   "sourceInputs": [
     {
       "path": ".agents/plugins/marketplace.json",
@@ -76,7 +76,7 @@
     {
       "path": "plugins/codex-desktop-control/plugin.json",
       "length": 840,
-      "sha256": "885a367d5bdb3375c81eebcd07e374c1ec447e8171b416b0cf9ed1ae7c47e0ff"
+      "sha256": "ed962a44b9d856fef6d518e85a4a353b283fd5d3451f935af7efcc81c72af45d"
     },
     {
       "path": "plugins/codex-desktop-control/skills/desktop-control/references/workflows.md",
@@ -164,6 +164,11 @@
       "sha256": "8a5e846de827d2ad44c152d0017d82a58ff0018433ce0cb83ad11bcb8d2b1c6c"
     },
     {
+      "path": "scripts/test-physical-chord-ownership.ps1",
+      "length": 4291,
+      "sha256": "6950dd1eb92322d63e4b93baa3e183839c0edf551e23192aff69386888d2abc2"
+    },
+    {
       "path": "scripts/test-plugin-management.ps1",
       "length": 11207,
       "sha256": "485f87a4f7420625b7b1c6e78bef19d00faec9dc2c02276c8971f3b04f4ffee2"
@@ -175,8 +180,8 @@
     },
     {
       "path": "scripts/validate-plugin.ps1",
-      "length": 21017,
-      "sha256": "46868ff28be864571c56c209230df2a9403d9389bc53611b0609e4d537562471"
+      "length": 21035,
+      "sha256": "b9d1789f903085c1f3a50bf69e640377b74f00d3e0537c51d0773c8e02aa96a4"
     },
     {
       "path": "scripts/VisualAcceptance.psm1",
@@ -216,12 +221,12 @@
     {
       "path": "src/CodexDesktopControl.Mcp/CodexDesktopControl.Mcp.csproj",
       "length": 563,
-      "sha256": "07d2603c9306dd029c800f1d02bdef1bb34537920fe8432b236fa352b005023d"
+      "sha256": "36f03515cafc3b2389ae555d1bdb2784f0ce0789211da44030fae791515cc084"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/EmergencyStopHost.cs",
-      "length": 6916,
-      "sha256": "52e972cba52cbf392a44c1985dba884df48c53bdc9f5c27798dcbf11c4bdac42"
+      "length": 7193,
+      "sha256": "bd3af599a2db4a7dbbe45400aff90f74a8f6efad767bd66d4af854de9b6c6840"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/HumanControl.cs",
@@ -250,8 +255,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/PhysicalInputLane.cs",
-      "length": 40393,
-      "sha256": "f496ff0c407ece02c798903ee1bc92fcdffa5303a563a16dbaddf2e4b0a2920b"
+      "length": 41750,
+      "sha256": "d305fda401d6cbe3acee6ab861d57c7ad3326770d4b694b47bdc508d290743a2"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/PointerInput.cs",
@@ -333,22 +338,22 @@
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.deps.json",
       "length": 37220,
-      "sha256": "c292661b7d4494f310b210cceef48002c3aab752d31ae5f19f13962cab26fe60"
+      "sha256": "4f9c2877b489d07a33360ee68dad601bc26156994440f859c0bc56d254ad48b6"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.dll",
-      "length": 662016,
-      "sha256": "228d5515e9159d4cd3bf302b00188d82946ce7802cea70d06caf3db6025ba00f"
+      "length": 663040,
+      "sha256": "e13f918467e8035b2b4a25828c8cf92cd7a8dcc3e3b4344633a338b5853602fe"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.exe",
       "length": 162816,
-      "sha256": "a74b3da0e21d7940c02e177fc9b98a94bb997ed8aec26d98b78d6ad6f4aa0f8c"
+      "sha256": "4271450effedccaf1c0e91a13c9ee5f2fdc65d19b01cc78982aaca9397052529"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.pdb",
-      "length": 115256,
-      "sha256": "71533b7edd4c54004d3a3c90149971662fe5921fc5ca625c22a5192d8fcd0631"
+      "length": 115644,
+      "sha256": "51ade000d93d3c00e33d6ad2d0a4ba5213dca443707106b31b7c443db9abf7ad"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.runtimeconfig.json",
@@ -2358,7 +2363,7 @@
     {
       "path": "plugin.json",
       "length": 840,
-      "sha256": "885a367d5bdb3375c81eebcd07e374c1ec447e8171b416b0cf9ed1ae7c47e0ff"
+      "sha256": "ed962a44b9d856fef6d518e85a4a353b283fd5d3451f935af7efcc81c72af45d"
     },
     {
       "path": "skills/desktop-control/references/workflows.md",
