@@ -44,3 +44,5 @@ Discover dialogs, owned windows, dropdowns and menus through normal exact window
 ## Reconnect and uncertain effects
 
 Act/Interact/Activate UI/Run return server-scoped operation IDs. `get_state(operationId=...)` may report bounded content-free execution/effect summaries. Unknown/evicted/new-server IDs require fresh reconciliation, not replay. No command journal, automatic resume or cross-server authority transfer exists. Re-establish current target/read authority, inspect only necessary state, and choose a new authorized intent after resolving uncertainty.
+
+Zero `pluginHeldKeys`/`pluginHeldButtons` counts describe only the current server's tracked input; they do not prove that a prior session owner left the desktop neutral. Runtimes supporting abandoned-owner reconciliation recover automatically at exclusive lane admission only after proving the prior process gone and the trusted current keyboard/button state clean and quiescent. Never delete ownership files, request speculative releases or repeat an uncertain mutation to clear a refusal. An unresolved refusal needs diagnosis; reconciliation does not clear Stop/private control or transfer authorization.

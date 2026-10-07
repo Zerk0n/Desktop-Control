@@ -7,7 +7,7 @@
   "targets": {
     ".NETCoreApp,Version=v10.0": {},
     ".NETCoreApp,Version=v10.0/win-x64": {
-      "CodexDesktopControl.Mcp/0.4.0": {
+      "CodexDesktopControl.Mcp/0.4.1": {
         "dependencies": {
           "Microsoft.Windows.CsWinRT": "2.3.1",
           "runtimepack.Microsoft.NETCore.App.Runtime.win-x64": "10.0.12",
@@ -985,7 +985,7 @@
     }
   },
   "libraries": {
-    "CodexDesktopControl.Mcp/0.4.0": {
+    "CodexDesktopControl.Mcp/0.4.1": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

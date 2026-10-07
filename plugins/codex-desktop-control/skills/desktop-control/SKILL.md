@@ -7,7 +7,7 @@ metadata:
 
 # Desktop Control
 
-Use available MCP tools for local Windows GUI work. Prefer repository, shell, API or browser/DOM tools when GUI interaction is unnecessary. Inspect the live catalog, not this skill's version alone: the 0.4.0 package declares contract 1.24.0 / 30 tools, but actual host exposure still requires checking the loaded runtime and project configuration. Missing tools do not authorize installation or configuration changes.
+Use available MCP tools for local Windows GUI work. Prefer repository, shell, API or browser/DOM tools when GUI interaction is unnecessary. Inspect the live catalog, not this skill's version alone: this source package declares contract 1.24.0 / 30 tools, but actual host exposure still requires checking the loaded runtime and project configuration. Missing tools do not authorize installation or configuration changes.
 
 ## Canonical operating loop
 
