@@ -1,8 +1,8 @@
-# Desktop Control 0.4.2
+# Desktop Control 0.4.3
 
 Desktop Control is a local Windows Codex plugin for authorized desktop observation and interaction. This distribution includes the Windows runtime, MCP tools contract 1.24.0 (30 tools), and the `desktop-control` agent skill. The local marketplace entry is [`.agents/plugins/marketplace.json`](.agents/plugins/marketplace.json); the plugin is under [`plugins/codex-desktop-control`](plugins/codex-desktop-control).
 
-0.4.2 is a compatible physical-input ownership and chord-correctness patch on the 0.4.1 hardening line. Held human key state now blocks before granular dispatch, and monitoring is rechecked before injection. Genuine overlapping ownership remains fail-closed; the patch adds no force reset, unsafe release or replay. It does not change the MCP contract or tool count.
+0.4.3 is a compatible reliability, security and privacy hardening patch on the 0.4.2 line. Physical-input admission refreshes input and desktop-continuity evidence after idle or desktop changes; ownership recovery remains fail-closed. Background observation withholds unrelated foreground metadata, and authorization and cancellation are rechecked before publishing read results or completing protected-state transitions. Refusal diagnostics distinguish bounded causes without recording typed content. The patch adds no force reset, unsafe release or replay and does not change the MCP contract or tool count.
 
 For normal agent work, start with `desktop.observe` and `desktop.capabilities`, prefer semantic `desktop.interact` where admissible, and use `desktop.act` or fresh-frame visual input only when needed. `desktop.wait_for` and bounded `desktop.run` coordinate longer workflows. The bundled skill describes target identity, authorization, receipts, private human control and safe recovery. Tool availability depends on the loaded host/runtime and its configuration; the package manifest alone does not prove a tool is active.
 
