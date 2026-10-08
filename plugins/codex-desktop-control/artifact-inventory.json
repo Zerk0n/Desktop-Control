@@ -2,11 +2,11 @@
   "schemaVersion": "1.0",
   "marketplaceName": "desktop-control-local",
   "pluginName": "codex-desktop-control",
-  "pluginVersion": "0.4.3",
+  "pluginVersion": "0.4.4",
   "serverName": "codex-desktop-control",
-  "serverVersion": "0.4.3",
+  "serverVersion": "0.4.4",
   "mcpContractVersion": "1.24.0",
-  "sourceRevision": "e6a0711ecf289e2b489530f097ba50e3c4f20201",
+  "sourceRevision": "36d61bad18a3c5cabf702f355c64c6f03729b37d",
   "sourceInputs": [
     {
       "path": ".agents/plugins/marketplace.json",
@@ -20,8 +20,8 @@
     },
     {
       "path": "contracts/mcp-tools.v1.json",
-      "length": 80129,
-      "sha256": "c77ec49661f511652a33436fac276ec4264d5947e2a949c4ef3b93d0a3b5f1fa"
+      "length": 80468,
+      "sha256": "d7dfde1c0b0c1b4b8773cac50be86dbfe143ac93a17fdb6a75b4ad27880247f6"
     },
     {
       "path": "contracts/policy.v1.schema.json",
@@ -76,7 +76,7 @@
     {
       "path": "plugins/codex-desktop-control/plugin.json",
       "length": 840,
-      "sha256": "c1b4d999eb128df7d88903111e85dfd435950ee0b78b921494d1b16c14bc7faa"
+      "sha256": "4d910a183232a9d6470314eb7da7c43597e9d022fab21a691a77cac850d18dee"
     },
     {
       "path": "plugins/codex-desktop-control/skills/desktop-control/references/workflows.md",
@@ -90,8 +90,8 @@
     },
     {
       "path": "plugins/codex-desktop-control/skills/desktop-control/SKILL.md",
-      "length": 5271,
-      "sha256": "3c29dd616272889cb3591b409b66c902c69c974c94fabaa03569d64f4f7e56e7"
+      "length": 5835,
+      "sha256": "5a2da5986f8f1d746880f36beb64e5c205d77f4326892d294ea000b65ccdadbe"
     },
     {
       "path": "scripts/complete-visual-review.ps1",
@@ -180,8 +180,8 @@
     },
     {
       "path": "scripts/validate-plugin.ps1",
-      "length": 21053,
-      "sha256": "7b64af74fb89361674d739c8d8e161abeb47041ae110616d25362a791d8146f7"
+      "length": 21071,
+      "sha256": "67406dfb4a132cd5129e260bcf69331b144a60f64a9bf73ef2a68c2433a2512d"
     },
     {
       "path": "scripts/VisualAcceptance.psm1",
@@ -195,8 +195,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/ApplicationControl.cs",
-      "length": 31156,
-      "sha256": "e121d551f36f27ba9a6653d7e315728fb20f74a70699728ea4ad1a510ba2f2f5"
+      "length": 32352,
+      "sha256": "8285042908d9698c2dd097579ef6935b4639882d01d449492dd2bfbd2bb4ff41"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/AssemblyInfo.cs",
@@ -215,18 +215,23 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/CapabilityControl.cs",
-      "length": 14253,
-      "sha256": "9593f567142effb9f79f9afd73e27aa9dc19e061b87424fb9931c8ebfbb05835"
+      "length": 14422,
+      "sha256": "d2d4c5cddc2729d3aa86a701933919b8f7b6b18081bb6f9a21f614d1c2659ee1"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/CodexDesktopControl.Mcp.csproj",
       "length": 563,
-      "sha256": "5b668c41a2bbbf9407738e5125f83214069ccfd04088d65b105ed81e633c04de"
+      "sha256": "2961e5ce4e1778e6c6cd6acab6da20cdc58c64fef9e99ba39dc3e864253031db"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/EmergencyStopHost.cs",
       "length": 7262,
       "sha256": "8cc64405ec3d388f35a007591b54b704c02837892968ed76cb0ff237b92dd64e"
+    },
+    {
+      "path": "src/CodexDesktopControl.Mcp/ForegroundPreparation.cs",
+      "length": 8351,
+      "sha256": "38d845044396df45f81d11bd6966b69c7f5d94f5be3b8031b0708449cd5e9be7"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/HumanControl.cs",
@@ -240,8 +245,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/KeyboardInput.cs",
-      "length": 8012,
-      "sha256": "efc8c62995c4de961e9103d5485a701bdb2792d7e84d5b05c4ccf19afbc07121"
+      "length": 8118,
+      "sha256": "f1b355f27f28d1ff186c01cb87109f5fa76eb3593185f8a098106af9f8ca40b4"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/NativeEditAdapter.cs",
@@ -285,8 +290,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/UiaControl.cs",
-      "length": 58780,
-      "sha256": "10cbc519d8ad44badd3ffb88932636e58b0e721fbb24012cceae142a075b7bef"
+      "length": 59307,
+      "sha256": "9a5d66a0eea2a318dbb498709a4a9f7983101ba77ab1a207c39310740a944218"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/WaitControl.cs",
@@ -295,8 +300,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/WindowControl.cs",
-      "length": 29910,
-      "sha256": "316a4e70ee23ddbfc1d76e8fdcaac560804b1a14024267276fef4bd176bf64c7"
+      "length": 28133,
+      "sha256": "37bac385efc09cda1b5ead23cf2f31882e8a48e294f445b600bc4f1bc3757b09"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/WindowsGraphicsCapture.cs",
@@ -338,22 +343,22 @@
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.deps.json",
       "length": 37220,
-      "sha256": "93212baa6fe7bef43aa4a1547d5518f11995d7ad0f7f1553dd10427da1442942"
+      "sha256": "12597ec8daae310425de1b200b01e987ebc1867007690c71285a430f9f52fda6"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.dll",
-      "length": 669696,
-      "sha256": "746f4620783b4fc6d984c1ecb4e1c527432835f16e1f163b5673dc210a230297"
+      "length": 676352,
+      "sha256": "e41211910a4f666bc3505d2fedea07ee241ce57b1739dc026b86389370afca18"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.exe",
       "length": 162816,
-      "sha256": "e8b6f75edb3a02f7e527d39d299de63c399f1d614660abf36179b4d133d38ad9"
+      "sha256": "7bd839e4d261a3f9bc546c53f51afefda0b067cae79dad3cc358df5c081257b6"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.pdb",
-      "length": 116416,
-      "sha256": "822fb5366f09c383f8ec5a62b654f3192d58069b332556e8163c9993bdd8c60f"
+      "length": 118340,
+      "sha256": "f41d89a777d7e53f9dc7c758999d7053eb1bcb5ff0708cd3e8a5b23cf7a39fac"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.runtimeconfig.json",
@@ -2337,8 +2342,8 @@
     },
     {
       "path": "contracts/mcp-tools.v1.json",
-      "length": 80129,
-      "sha256": "c77ec49661f511652a33436fac276ec4264d5947e2a949c4ef3b93d0a3b5f1fa"
+      "length": 80468,
+      "sha256": "d7dfde1c0b0c1b4b8773cac50be86dbfe143ac93a17fdb6a75b4ad27880247f6"
     },
     {
       "path": "contracts/policy.v1.schema.json",
@@ -2363,7 +2368,7 @@
     {
       "path": "plugin.json",
       "length": 840,
-      "sha256": "c1b4d999eb128df7d88903111e85dfd435950ee0b78b921494d1b16c14bc7faa"
+      "sha256": "4d910a183232a9d6470314eb7da7c43597e9d022fab21a691a77cac850d18dee"
     },
     {
       "path": "skills/desktop-control/references/workflows.md",
@@ -2377,8 +2382,8 @@
     },
     {
       "path": "skills/desktop-control/SKILL.md",
-      "length": 5271,
-      "sha256": "3c29dd616272889cb3591b409b66c902c69c974c94fabaa03569d64f4f7e56e7"
+      "length": 5835,
+      "sha256": "5a2da5986f8f1d746880f36beb64e5c205d77f4326892d294ea000b65ccdadbe"
     }
   ]
 }
