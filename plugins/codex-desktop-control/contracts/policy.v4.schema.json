@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Codex Desktop Control Policy V4",
+  "description": "Zero-configuration application access with scoped operation approvals and optional protected routine prompt suppression.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "approvalGroups", "security", "logging", "emergencyStop"],
+  "properties": {
+    "schemaVersion": { "const": "4.0" },
+    "routineApprovalMode": { "type": "string", "enum": ["prompt", "suppress"], "default": "prompt" },
+    "approvalGroups": {
+      "type": "object", "additionalProperties": false,
+      "required": ["readView", "writeEdit", "desktopAllScreens", "systemGlobalInput"],
+      "properties": {
+        "readView": { "enum": ["ASK", "DENY"] },
+        "writeEdit": { "enum": ["ASK", "DENY"] },
+        "desktopAllScreens": { "enum": ["ASK", "DENY"] },
+        "systemGlobalInput": { "enum": ["ASK", "DENY"] }
+      }
+    },
+    "applications": { "$ref": "policy.v3.schema.json#/properties/applications" },
+    "security": { "$ref": "policy.v1.schema.json#/properties/security" },
+    "logging": { "$ref": "policy.v1.schema.json#/properties/logging" },
+    "emergencyStop": { "$ref": "policy.v1.schema.json#/properties/emergencyStop" }
+  }
+}

@@ -2,11 +2,11 @@
   "schemaVersion": "1.0",
   "marketplaceName": "desktop-control-local",
   "pluginName": "codex-desktop-control",
-  "pluginVersion": "0.4.4",
+  "pluginVersion": "0.5.0",
   "serverName": "codex-desktop-control",
-  "serverVersion": "0.4.4",
-  "mcpContractVersion": "1.24.0",
-  "sourceRevision": "36d61bad18a3c5cabf702f355c64c6f03729b37d",
+  "serverVersion": "0.5.0",
+  "mcpContractVersion": "1.25.0",
+  "sourceRevision": "1b45456764cf0372ad502704e96d4c6b06ac629f",
   "sourceInputs": [
     {
       "path": ".agents/plugins/marketplace.json",
@@ -20,8 +20,8 @@
     },
     {
       "path": "contracts/mcp-tools.v1.json",
-      "length": 80468,
-      "sha256": "d7dfde1c0b0c1b4b8773cac50be86dbfe143ac93a17fdb6a75b4ad27880247f6"
+      "length": 82235,
+      "sha256": "c98599c3d01e816948a15e39fbb8c351189f86dbb677163cd7c9b54c926df679"
     },
     {
       "path": "contracts/policy.v1.schema.json",
@@ -39,9 +39,14 @@
       "sha256": "dab389ed46616e6a1c55f9dc9c5ee8cc67eff79c99d22c5d72d2b22c53e858b9"
     },
     {
+      "path": "contracts/policy.v4.schema.json",
+      "length": 1289,
+      "sha256": "4d24c0b364951df1ef0502a34cddd2a98eee788d991569b78a16dbf03b093330"
+    },
+    {
       "path": "contracts/README.md",
-      "length": 809,
-      "sha256": "75caeb46cfac8ecfb8fca1474d256e9eff5ce845739708e28ff6ff875d4b53bb"
+      "length": 1383,
+      "sha256": "609b6e146b63ecb7d171a51ad27c0dbdb7c2c03b224c441707c1b14e77817327"
     },
     {
       "path": "Directory.Build.props",
@@ -60,13 +65,13 @@
     },
     {
       "path": "plugins/codex-desktop-control/config/default-policy.json",
-      "length": 617,
-      "sha256": "aa7e05daa1682f60a37898d9113bd946ab550fe531897e4ceb6aa6eb192c5d8d"
+      "length": 652,
+      "sha256": "bf67441c06d4781c84ed7ea91956e3a5f53bebb25403641d4fead0f17fddcc50"
     },
     {
       "path": "plugins/codex-desktop-control/config/user-plugin.toml",
-      "length": 2406,
-      "sha256": "09c1acff0675f82d2ac15856f8e4584f62e7fd7a0ab9570d9ed3b221f7231b0e"
+      "length": 2437,
+      "sha256": "bccc91287e026217e16d06e91f5b85996799266c02611f0de839737275242c8b"
     },
     {
       "path": "plugins/codex-desktop-control/mcp.json",
@@ -76,12 +81,12 @@
     {
       "path": "plugins/codex-desktop-control/plugin.json",
       "length": 840,
-      "sha256": "4d910a183232a9d6470314eb7da7c43597e9d022fab21a691a77cac850d18dee"
+      "sha256": "bc2b8c5f066170339bae9042de0a6a3736904b847b0137ceef3b5daee5fe6801"
     },
     {
       "path": "plugins/codex-desktop-control/skills/desktop-control/references/workflows.md",
-      "length": 6609,
-      "sha256": "e0a3fcc631b26b3cb691667c14cadcb9256ed63f51abaa132a31128d59637482"
+      "length": 7997,
+      "sha256": "c63c4d032a4e36a940674ffcdf53516337086c328e0c3ed706f7fa8ac9225192"
     },
     {
       "path": "plugins/codex-desktop-control/skills/desktop-control/routing-evals.json",
@@ -90,8 +95,8 @@
     },
     {
       "path": "plugins/codex-desktop-control/skills/desktop-control/SKILL.md",
-      "length": 5835,
-      "sha256": "5a2da5986f8f1d746880f36beb64e5c205d77f4326892d294ea000b65ccdadbe"
+      "length": 6861,
+      "sha256": "30295a8bceae14aeb5b886427d86edc247f2ddb436a4431b6fe0620117228faa"
     },
     {
       "path": "scripts/complete-visual-review.ps1",
@@ -115,8 +120,8 @@
     },
     {
       "path": "scripts/publish-distribution.ps1",
-      "length": 5518,
-      "sha256": "46f1a3415cba587bce314cdb8938ae6df627ef1bc068205e70f3ca7b9ca0cc78"
+      "length": 5542,
+      "sha256": "9057be59966917151a9e30c91ee76266271806db11330d063dbeec29ad49ee5a"
     },
     {
       "path": "scripts/publish-plugin.ps1",
@@ -125,33 +130,38 @@
     },
     {
       "path": "scripts/run-acceptance.ps1",
-      "length": 67391,
-      "sha256": "006dc9afbb96eb12c49b964f177ac1a23131f09eb5f93335f0f075a7d240a7d2"
+      "length": 69596,
+      "sha256": "65c0ccb6feef217238995e9694e742ca42cc8fee1c1f07e3c46f3f580f0e4f34"
     },
     {
       "path": "scripts/run-act-pause-acceptance.ps1",
-      "length": 21486,
-      "sha256": "4609c4500612e25a400eb40fc81462b6e1238595c561666e83be3f88930f8043"
+      "length": 21468,
+      "sha256": "2806feff605977f31aa3a1c4111be389f9cfd9a86f86767d77e303d9733e2b19"
     },
     {
       "path": "scripts/run-act-postcondition-acceptance.ps1",
-      "length": 14094,
-      "sha256": "3e0900223879828bffb6636e819f92214da29773feaa265a3e9262e7b0e0dc97"
+      "length": 14032,
+      "sha256": "f3831304611236afefc22ad2210383f6e75289ef12ae493f37fe635f9661003d"
     },
     {
       "path": "scripts/run-interact-hybrid-acceptance.ps1",
-      "length": 33847,
-      "sha256": "b5c45241241240e6bd2e179fd8782eecb907a6e439cdd12f408ca940c5f529a3"
+      "length": 33785,
+      "sha256": "615349d57ac551ce2689be269713a47c17d4b87857a75ccaade1e94f1eadc0d7"
     },
     {
       "path": "scripts/run-standalone-wait-acceptance.ps1",
-      "length": 30710,
-      "sha256": "98a559c6bed9e1cd01f7d3812c45ff6be8a64011dc6d203724cdebdc18c073f4"
+      "length": 30648,
+      "sha256": "8c8f3f779bd7e28f0d1219aa86dc687abfcc14fe849016aa5ba895f04ab217db"
     },
     {
       "path": "scripts/run-visual-acceptance.ps1",
-      "length": 17227,
-      "sha256": "9dcf309ce02606b444f08aa53fb066788579445ea6d3964ca54c9c8a3bc2b15e"
+      "length": 17174,
+      "sha256": "53c0798c507c019e1974f46abdbaf9c8044e6eac5a47f41b683a4f381795d56e"
+    },
+    {
+      "path": "scripts/run-zero-configuration-acceptance.ps1",
+      "length": 8775,
+      "sha256": "0893267e38659d25086a906c91aad9ec201b5b4d4d4d145c69ace21f252bda40"
     },
     {
       "path": "scripts/test-cooperative-readiness.ps1",
@@ -179,9 +189,14 @@
       "sha256": "2552e2ac609ff2cddedde8b0ee9fea2b0b45ffb9e9535a9fd1278dd7ad7d9e01"
     },
     {
+      "path": "scripts/testapp-identity.ps1",
+      "length": 933,
+      "sha256": "c25a58266e34b707952198e462018ac12438bbdb6893d34589994e9bebab57db"
+    },
+    {
       "path": "scripts/validate-plugin.ps1",
-      "length": 21071,
-      "sha256": "67406dfb4a132cd5129e260bcf69331b144a60f64a9bf73ef2a68c2433a2512d"
+      "length": 21514,
+      "sha256": "acb70826f49deeda178e38f6000fefbe8e49fbe7ba95c66b382860b2ff904f1f"
     },
     {
       "path": "scripts/VisualAcceptance.psm1",
@@ -190,13 +205,18 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/ActControl.cs",
-      "length": 32506,
-      "sha256": "91a8f9a61d6d9d35cd03cb56a0b41472fa12582229ce8459dc4d23598ac5a623"
+      "length": 33109,
+      "sha256": "1e9b3ddd89f247d17041cac40cfc248331c70cff558757e620e6d24d8c8f4233"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/ApplicationControl.cs",
-      "length": 32352,
-      "sha256": "8285042908d9698c2dd097579ef6935b4639882d01d449492dd2bfbd2bb4ff41"
+      "length": 32864,
+      "sha256": "5eb7d3f20bb715115922fad7673477d331738d1c6cfb929cb2e1035445b9ac37"
+    },
+    {
+      "path": "src/CodexDesktopControl.Mcp/ApprovalSettingsControl.cs",
+      "length": 5482,
+      "sha256": "d77d6aa110d19b41988b24940e503b413c3c202dd6997847b579a5c6de831199"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/AssemblyInfo.cs",
@@ -205,8 +225,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/AuthorizationControl.cs",
-      "length": 82799,
-      "sha256": "9951151151aaa6a21b7b103301cb7849a1a0c994f13a58075c916c8db3bd19fa"
+      "length": 91481,
+      "sha256": "124e629de9a2678fcb5f49e5874b0b472e29b1324134365b1294a73a0a9c0cf5"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/BoundedLineReader.cs",
@@ -215,13 +235,13 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/CapabilityControl.cs",
-      "length": 14422,
-      "sha256": "d2d4c5cddc2729d3aa86a701933919b8f7b6b18081bb6f9a21f614d1c2659ee1"
+      "length": 14736,
+      "sha256": "778d6414f85f49edf57cf56dc4a5b18894182005e720343a11a4daab5e11a53a"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/CodexDesktopControl.Mcp.csproj",
       "length": 563,
-      "sha256": "2961e5ce4e1778e6c6cd6acab6da20cdc58c64fef9e99ba39dc3e864253031db"
+      "sha256": "13165fb9d871f48138932c59516a64c3bc261c7cbdc62599b5ebd57675a39f7d"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/EmergencyStopHost.cs",
@@ -240,8 +260,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/InteractControl.cs",
-      "length": 20272,
-      "sha256": "da69aabff6f056d81fdc0d92bd613b33dddacbea43881f10f014b7dce7b127aa"
+      "length": 21811,
+      "sha256": "aace932d6866f133e05522c8fe64f572258d657fd712f84b9bd8d65f45e9fa08"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/KeyboardInput.cs",
@@ -250,8 +270,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/NativeEditAdapter.cs",
-      "length": 3375,
-      "sha256": "9fe27445718f0271b7069f7395659e52e0980b3cc529a2f79dc0df622eee1755"
+      "length": 3600,
+      "sha256": "89d8225fe7af2976178c744aaab98d9cc0a280f1d256abcff7058aba5b278483"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/OperationHistory.cs",
@@ -270,18 +290,18 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/PolicyAuthoringControl.cs",
-      "length": 17201,
-      "sha256": "52c86472304630a5020b87e5f0a8a27c595eed73886ae5bb8094fd058c97adaf"
+      "length": 17209,
+      "sha256": "892ddd4206d3acf8d539d5bb6bd4f8494638efbcc9a4f6d3174e662708be2139"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/Program.cs",
-      "length": 16526,
-      "sha256": "a0160643aeebf15596660ff92ce2442c011c7268d9140eb0dca8ba2cfd338cdc"
+      "length": 16477,
+      "sha256": "aeac63133b13ae48aa1cc3677b289ccf54377aedd7cd44ef71e43778795371da"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/RunControl.cs",
-      "length": 5579,
-      "sha256": "76eb75eecc72f2e73db51db25b8ddba0178da01ea307763f110125f631b23550"
+      "length": 5921,
+      "sha256": "d76e6830759808d621fc6a26461552f7fd5c9cb02a296b071e74d868aec4c258"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/ToolInput.cs",
@@ -290,18 +310,18 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/UiaControl.cs",
-      "length": 59307,
-      "sha256": "9a5d66a0eea2a318dbb498709a4a9f7983101ba77ab1a207c39310740a944218"
+      "length": 63220,
+      "sha256": "e25425f7d5e5ecdd0caf0e9d26a5950b2568d725abd68b79499293df3be0dd65"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/WaitControl.cs",
-      "length": 32069,
-      "sha256": "9693aa17b061d210818e82e4d9381c829cc50b2d24cf2ee1efddcd254390ed53"
+      "length": 33448,
+      "sha256": "7ff4617497d2ff2036755bf6a3fac676c9415147dc1cd2a092821cf855e7877b"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/WindowControl.cs",
-      "length": 28133,
-      "sha256": "37bac385efc09cda1b5ead23cf2f31882e8a48e294f445b600bc4f1bc3757b09"
+      "length": 28601,
+      "sha256": "245f55ba13d50ef0ed857301c011742c6caf063c73b169abc43f2ce7f1fe5075"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/WindowsGraphicsCapture.cs",
@@ -310,8 +330,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/WindowsObservation.cs",
-      "length": 61184,
-      "sha256": "5c05db9668a4f521fe8db9638b20ff7fc279388cc0a6c2c9c52f4c1849f918a9"
+      "length": 63672,
+      "sha256": "28108498021cc5cb0a5fef789ae40e9049a35a19567a4fdcff3e2a6bfa86cd69"
     }
   ],
   "files": [
@@ -343,22 +363,22 @@
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.deps.json",
       "length": 37220,
-      "sha256": "12597ec8daae310425de1b200b01e987ebc1867007690c71285a430f9f52fda6"
+      "sha256": "f3f221c4468977c51a6653ab0546bef46915a548d9a5955fb2af34a861194960"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.dll",
-      "length": 676352,
-      "sha256": "e41211910a4f666bc3505d2fedea07ee241ce57b1739dc026b86389370afca18"
+      "length": 725504,
+      "sha256": "22bcd7252fa1ee3374755e767c9477900792222efec2d32cfe7ebe1a2011027a"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.exe",
       "length": 162816,
-      "sha256": "7bd839e4d261a3f9bc546c53f51afefda0b067cae79dad3cc358df5c081257b6"
+      "sha256": "166a17e0947a0f496be6e42da7021cbcf003df72bf62c67691204e3e35a6c95d"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.pdb",
-      "length": 118340,
-      "sha256": "f41d89a777d7e53f9dc7c758999d7053eb1bcb5ff0708cd3e8a5b23cf7a39fac"
+      "length": 122404,
+      "sha256": "6d287a7c7dfd6454d1ffa6cc5ba4710e4fa33f8de46ca8945f17af335839dbd5"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.runtimeconfig.json",
@@ -2332,18 +2352,18 @@
     },
     {
       "path": "config/default-policy.json",
-      "length": 617,
-      "sha256": "aa7e05daa1682f60a37898d9113bd946ab550fe531897e4ceb6aa6eb192c5d8d"
+      "length": 652,
+      "sha256": "bf67441c06d4781c84ed7ea91956e3a5f53bebb25403641d4fead0f17fddcc50"
     },
     {
       "path": "config/user-plugin.toml",
-      "length": 2406,
-      "sha256": "09c1acff0675f82d2ac15856f8e4584f62e7fd7a0ab9570d9ed3b221f7231b0e"
+      "length": 2437,
+      "sha256": "bccc91287e026217e16d06e91f5b85996799266c02611f0de839737275242c8b"
     },
     {
       "path": "contracts/mcp-tools.v1.json",
-      "length": 80468,
-      "sha256": "d7dfde1c0b0c1b4b8773cac50be86dbfe143ac93a17fdb6a75b4ad27880247f6"
+      "length": 82235,
+      "sha256": "c98599c3d01e816948a15e39fbb8c351189f86dbb677163cd7c9b54c926df679"
     },
     {
       "path": "contracts/policy.v1.schema.json",
@@ -2361,6 +2381,11 @@
       "sha256": "dab389ed46616e6a1c55f9dc9c5ee8cc67eff79c99d22c5d72d2b22c53e858b9"
     },
     {
+      "path": "contracts/policy.v4.schema.json",
+      "length": 1289,
+      "sha256": "4d24c0b364951df1ef0502a34cddd2a98eee788d991569b78a16dbf03b093330"
+    },
+    {
       "path": "mcp.json",
       "length": 271,
       "sha256": "d5d599b27f79f70133bbce5e65aed874f79b4e9c9c35427c0f3b13dc05b200ae"
@@ -2368,12 +2393,12 @@
     {
       "path": "plugin.json",
       "length": 840,
-      "sha256": "4d910a183232a9d6470314eb7da7c43597e9d022fab21a691a77cac850d18dee"
+      "sha256": "bc2b8c5f066170339bae9042de0a6a3736904b847b0137ceef3b5daee5fe6801"
     },
     {
       "path": "skills/desktop-control/references/workflows.md",
-      "length": 6609,
-      "sha256": "e0a3fcc631b26b3cb691667c14cadcb9256ed63f51abaa132a31128d59637482"
+      "length": 7997,
+      "sha256": "c63c4d032a4e36a940674ffcdf53516337086c328e0c3ed706f7fa8ac9225192"
     },
     {
       "path": "skills/desktop-control/routing-evals.json",
@@ -2382,8 +2407,8 @@
     },
     {
       "path": "skills/desktop-control/SKILL.md",
-      "length": 5835,
-      "sha256": "5a2da5986f8f1d746880f36beb64e5c205d77f4326892d294ea000b65ccdadbe"
+      "length": 6861,
+      "sha256": "30295a8bceae14aeb5b886427d86edc247f2ddb436a4431b6fe0620117228faa"
     }
   ]
 }

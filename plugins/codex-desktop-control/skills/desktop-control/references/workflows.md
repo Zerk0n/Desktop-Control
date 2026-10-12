@@ -9,7 +9,7 @@ Read only the section needed for the live tool catalog. The packaged `contracts/
 Standalone waits are read-only, without human quiescence or a physical lane:
 
 - `ui_exists`: positive appearance/query constraints, including enabled/offscreen.
-- `ui_value_equals`, `ui_toggle_state`, `ui_selection_state`: uniquely bound exact typed state; full equality without raw readback. Explicit UI-read ALLOW is required, independently of writes or reusable grants.
+- `ui_value_equals`, `ui_toggle_state`, `ui_selection_state`: uniquely bound exact typed state; full equality without raw readback. Current Read/View authority is required independently of writes; scoped approvals work without application rules.
 - `ui_gone`: authorized query population empty after complete traversal; not destruction of one control or absence from non-exposed/virtualized data.
 - `element_gone`: initially admitted exact control absent from the still-authorized complete exposed tree. Old/foreign/evicted references are not absence proof.
 - `window_gone`: initially live admitted exact window/lifetime; hiding, failed lookup or denial is not disappearance.
@@ -23,7 +23,7 @@ Standalone waits are read-only, without human quiescence or a physical lane:
 
 Act supports move/click/double_click/drag/scroll/keypress/Unicode type/bounded duration wait. Ordinary physical coordinates and fresh-frame visual coordinates are distinct. Visual pointers carry the same authorized `frameObservationId` as their observation-local points. Before each action's first event, compatible fresh pixels and current identity/authority are checked; this is not an atomic rendering freeze.
 
-Optional per-action positive/typed postconditions require explicit UI-read ALLOW before the first mutation. Failure/unresolved verification stops later items. Verification proves current predicate state, not necessarily causation. Typed recovery after genuine human interruption retains uncertain execution even when advancement is explicitly allowed.
+Optional per-action positive/typed postconditions obtain independent Read/View approval before the first mutation. Failure/unresolved verification stops later items. Verification proves current predicate state, not necessarily causation. Typed recovery after genuine human interruption retains uncertain execution even when advancement is explicitly allowed.
 
 `finalObservation:true` is opt-in and separately capture-authorized. `postStateSinceObservationId` returns the existing complete incremental baseline's current delta and is exclusive with final observation. Neither is effect verification. Reuse sufficient receipt/post-state evidence; obtain a fresh image when visual judgment remains necessary.
 
@@ -42,6 +42,10 @@ Discover dialogs, owned windows, dropdowns and menus through normal exact window
 `resume` requires protected local human confirmation, never a model-approved click. It does not clear Stop or grant authority. Prior element/frame/baseline/grant assumptions are invalidated; obtain a fresh authorized full **window** observation before mutation. Do not capture still-visible secrets for reconciliation. No cursor/focus/caret restoration occurs.
 
 ## Reconnect and uncertain effects
+
+Navigation can remove its initiating control. Exact identity remains mandatory before dispatch; after provider completion, current owning-window authority and effect verification are separate checks. `dispatched/not_verified` proves provider completion, not arrival or business success. A separately authorized `wait_for(ui_exists)` or typed wait/current observation can establish the current destination without repeating navigation. This proves the predicate, not that the old action caused it, and never rewrites an uncertain historical receipt. Run stops on unresolved failure/uncertainty; use a separate read-only reconciliation call rather than resuming/replaying its unfinished mutations.
+
+Full `includeUiState` and explicit incremental reads can retry a transient provider/coherence failure once within the same total bound, with fresh identity/authority checks and no partial evidence publication. Tree overflow, busy workers, lost authority, stale/evicted references and incompatible capture are terminal. No observation is silently rebuilt as baseline continuity. A window with more than 128 exposed controls may need pixel-only observation plus narrowly scoped UI reads, not repeated full-baseline attempts. Observable settling still requires uninterrupted complete samples; internal recovery never credits unavailable time as quiet.
 
 Act/Interact/Activate UI/Run return server-scoped operation IDs. `get_state(operationId=...)` may report bounded content-free execution/effect summaries. Unknown/evicted/new-server IDs require fresh reconciliation, not replay. No command journal, automatic resume or cross-server authority transfer exists. Re-establish current target/read authority, inspect only necessary state, and choose a new authorized intent after resolving uncertainty.
 

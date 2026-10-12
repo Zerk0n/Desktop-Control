@@ -1,9 +1,19 @@
 {
-  "contractVersion": "1.24.0",
+  "contractVersion": "1.25.0",
   "serverName": "desktop-control",
   "toolPrefix": "desktop.",
   "coordinateSpace": "physical-virtual-desktop-pixels",
   "tools": [
+    {
+      "name": "desktop.configure_approvals",
+      "classification": "policy-write",
+      "inputSchema": {
+        "type": "object", "additionalProperties": false, "required": ["routineApprovalMode"],
+        "properties": { "routineApprovalMode": { "type": "string", "enum": ["prompt", "suppress"] } }
+      },
+      "description": "Change the global routine Read / View and Write / Edit prompt setting only after protected local human confirmation. Default prompt needs no application registration. Suppress does not authorize protected or inaccessible targets, desktop-wide reads, global/system input, launch/close, settings, or bypass human priority, Stop or private control. Explicit denials remain enforced. Changes invalidate prior approvals and observation/element references; reconcile from fresh evidence. No caller can approve this setting itself.",
+      "annotations": { "readOnlyHint": false, "destructiveHint": true, "openWorldHint": false }
+    },
     {
       "name": "desktop.observe",
       "classification": "read",
@@ -109,7 +119,7 @@
           }
         }
       },
-      "description": "Capture current desktop, monitor, or authorized window pixels and physical-coordinate metadata; optionally return bounded window changes since an authorized baseline.",
+      "description": "Capture current desktop, monitor, or authorized window pixels and physical-coordinate metadata; optionally return bounded window changes since an authorized baseline. includeUiState requires a complete tree of at most 128 controls; UIA_INCOMPLETE is not absence or unchanged state. Explicit pixel-only observation or scoped UI reads remain recovery paths. Transient coherent-read failure may retry once within a shared bound under unchanged current authority/identity, never rebuild a stale baseline or replay input.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -150,7 +160,7 @@
           }
         }
       },
-      "description": "List currently authorized top-level Windows windows with session-scoped IDs and policy-relevant metadata; this privacy-filtered, non-prompting surface is not exhaustive application discovery and may be empty before Read/View approval.",
+      "description": "Discover accessible ordinary top-level windows without application registration or prompting. Before Read/View approval, return only opaque windowId, processId, executable/application label and approval_required; no title, bounds, UI text, pixels or raw identity. Approved scopes receive full current metadata. Explicit denial, protected processes and Windows access boundaries are filtered; absence is not exhaustive proof.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -272,7 +282,7 @@
               "enabled": { "type": "boolean" }, "offscreen": { "type": "boolean" } } }
         }
       },
-      "description": "Inspect bounded current capability admission for one authorized window and optionally one uniquely resolved query or exact server-lifetime elementId. No prompt, UI mutation, permission grant, sensitive readback, or target reacquisition occurs. eligible is current prerequisite evidence, not an execution reservation; conditional operations still require action-specific and last-moment dispatch guards. Unsupported, prerequisite, authorization and evidence failures stay distinct.",
+      "description": "Inspect bounded current capability admission for an exact accessible window or control. Uses ordinary Read / View approval when needed, without application registration. No UI mutation, sensitive readback or target reacquisition occurs. The result grants no write authority or execution reservation; every later operation independently revalidates. Unsupported, prerequisite, authorization and evidence failures stay distinct.",
       "annotations": { "readOnlyHint": true, "destructiveHint": false, "openWorldHint": false }
     },
     {
@@ -961,7 +971,7 @@
           }
         ]
       },
-      "description": "Exact provider-backed semantic action on an independently authorized element. New expand/collapse, set_range_value and scroll_into_view require explicit UI-read ALLOW for bounded state verification; no generic background guarantee. Returns dispatch/effect certainty, never retry authority.",
+      "description": "Exact provider-backed semantic action on an independently authorized element. New expand/collapse, set_range_value and scroll_into_view require independent Read / View approval for bounded state verification; no generic background guarantee. Provider completion is dispatched, not effect verification; Invoke may remove its control and remains not_verified. Current owner authority is checked independently after dispatch. An uncertain receipt is never replay authority; use separately authorized reads/waits to observe a destination without rewriting historical execution.",
       "annotations": {
         "readOnlyHint": false,
         "destructiveHint": true,
@@ -997,7 +1007,7 @@
         },
         "oneOf": [{ "required": ["query"] }, { "required": ["elementId"] }]
       },
-      "description": "Set one control value using exactly one same-window query or server-lifetime elementId. Required background_only never uses physical input. Explicit background_first prefers native Win32 Edit; only proven pre-dispatch background ineligibility may use an exact-control WPF TextBox click/select-all/Unicode replacement with independent pointer/keyboard authority and explicit UI-read ALLOW. Physical fallback may change foreground/cursor. Exact-value evidence proves current state, not causal success. No retry or strategy switch after possible dispatch; human priority, bounded pause and unsafe-resume guards remain in force. Receipts expose selected strategy and ordered physical steps without raw values.",
+      "description": "Set one control value using exactly one same-window query or server-lifetime elementId. Required background_only never uses physical input. Explicit background_first prefers native Win32 Edit; only proven pre-dispatch background ineligibility may use an exact-control WPF TextBox click/select-all/Unicode replacement with independent pointer/keyboard authority and independent Read / View approval. Physical fallback may change foreground/cursor. Exact-value evidence proves current state, not causal success. No retry or strategy switch after possible dispatch; human priority, bounded pause and unsafe-resume guards remain in force. Receipts expose selected strategy and ordered physical steps without raw values.",
       "annotations": {
         "readOnlyHint": false,
         "destructiveHint": true,
@@ -1705,7 +1715,7 @@
           }
         }
       },
-      "description": "Wait for a bounded window, UI state, screen change or observation_stable condition. element_gone initially admits one live exact elementId and proves its absence from a complete authorized ControlView sample inside the still-live bound window; ui_gone remains query-empty. observation_stable compares successive complete compatible pixel/UI samples for stableForMs, not semantic readiness or future stability. Typed-state waits select exactly one same-window query or server-lifetime elementId. UI waits require explicit UI-read ALLOW; observation_stable also requires independently authorized capture. Guarded waits return matched/timed_out/unavailable/interrupted and never acquire physical input. any_of races 2–8 guarded UI/exact-window-disappearance conditions under one deadline in round-robin order; first observed match wins (array order breaks a simultaneous match), unavailable admission/evidence terminates, and unsampled losing work never starts.",
+      "description": "Wait for a bounded window, UI state, screen change or observation_stable condition. element_gone initially admits one live exact elementId and proves its absence from a complete authorized ControlView sample inside the still-live bound window; ui_gone remains query-empty. observation_stable compares successive complete compatible pixel/UI samples for stableForMs, not semantic readiness or future stability. Typed-state waits select exactly one same-window query or server-lifetime elementId. UI waits require independent Read / View approval; observation_stable also requires independently authorized capture. Guarded waits return matched/timed_out/unavailable/interrupted and never acquire physical input. any_of races 2–8 guarded UI/exact-window-disappearance conditions under one deadline in round-robin order; first observed match wins (array order breaks a simultaneous match), unavailable admission/evidence terminates, and unsampled losing work never starts.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -2258,7 +2268,7 @@
           }
         }
       },
-      "description": "Execute a bounded ordered move/click/double_click/drag/scroll/keypress/type/wait batch inside one authorized window. Human input pauses safe-boundary work by default: 1000ms quiet with no human-held input, at most 30000ms cumulative pause. Partial mutations never replay; after a pause only revalidated move/wait can continue without a control/caret oracle. Duration waits keep their wall-clock deadline. Optional per-action ui_exists query or UIA value/toggle/selection postconditions (exactly one query or server-lifetime elementId) require explicit Read / View ALLOW before any mutation. Value comparison is exact and protected values are rejected. verified means the predicate was observed, not causal/business success. Only genuine human interruption with proven owned-input cleanup and a matched ui_value_equals/ui_toggle_state/ui_selection_state predicate permits recovery advancement; execution stays uncertain and the next action still requires fresh safety revalidation. ui_exists cannot permit recovery. All other uncertain execution and unresolved verification stop later actions; no replay is authorized. finalObservation is opt-in and separately Read / View authorized. Canonical guarded physical/visual coordinator: optional per-pointer-action frameObservationId requires observation-local points and fresh identical same-window pixels before first dispatch. Optional postStateSinceObservationId returns separately authorized incremental post-state instead of a full final image; neither image nor delta proves intended effect.",
+      "description": "Execute a bounded ordered move/click/double_click/drag/scroll/keypress/type/wait batch inside one authorized window. Human input pauses safe-boundary work by default: 1000ms quiet with no human-held input, at most 30000ms cumulative pause. Partial mutations never replay; after a pause only revalidated move/wait can continue without a control/caret oracle. Duration waits keep their wall-clock deadline. Optional per-action ui_exists query or UIA value/toggle/selection postconditions (exactly one query or server-lifetime elementId) require independent Read / View approval before any mutation. Value comparison is exact and protected values are rejected. verified means the predicate was observed, not causal/business success. Only genuine human interruption with proven owned-input cleanup and a matched ui_value_equals/ui_toggle_state/ui_selection_state predicate permits recovery advancement; execution stays uncertain and the next action still requires fresh safety revalidation. ui_exists cannot permit recovery. All other uncertain execution and unresolved verification stop later actions; no replay is authorized. finalObservation is opt-in and separately Read / View authorized. Canonical guarded physical/visual coordinator: optional per-pointer-action frameObservationId requires observation-local points and fresh identical same-window pixels before first dispatch. Optional postStateSinceObservationId returns separately authorized incremental post-state instead of a full final image; neither image nor delta proves intended effect.",
       "annotations": {
         "readOnlyHint": false,
         "destructiveHint": true,
