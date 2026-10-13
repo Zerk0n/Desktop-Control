@@ -1,5 +1,5 @@
 {
-  "contractVersion": "1.25.0",
+  "contractVersion": "1.26.0",
   "serverName": "desktop-control",
   "toolPrefix": "desktop.",
   "coordinateSpace": "physical-virtual-desktop-pixels",
