@@ -1,5 +1,5 @@
 {
-  "contractVersion": "1.26.0",
+  "contractVersion": "1.27.0",
   "serverName": "desktop-control",
   "toolPrefix": "desktop.",
   "coordinateSpace": "physical-virtual-desktop-pixels",
@@ -8,11 +8,108 @@
       "name": "desktop.configure_approvals",
       "classification": "policy-write",
       "inputSchema": {
-        "type": "object", "additionalProperties": false, "required": ["routineApprovalMode"],
-        "properties": { "routineApprovalMode": { "type": "string", "enum": ["prompt", "suppress"] } }
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "routineApprovalMode"
+            ],
+            "properties": {
+              "routineApprovalMode": {
+                "type": "string",
+                "enum": [
+                  "prompt",
+                  "suppress"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope",
+              "permissions"
+            ],
+            "properties": {
+              "scope": {
+                "const": "global"
+              },
+              "permissions": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "readView": {
+                    "type": "boolean"
+                  },
+                  "writeEdit": {
+                    "type": "boolean"
+                  },
+                  "systemGlobalInput": {
+                    "type": "boolean"
+                  },
+                  "desktopAllScreens": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "scope",
+              "windowId",
+              "permissions"
+            ],
+            "properties": {
+              "scope": {
+                "const": "application"
+              },
+              "windowId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "matchMode": {
+                "enum": [
+                  "exact-identity",
+                  "executable-name"
+                ],
+                "default": "exact-identity"
+              },
+              "permissions": {
+                "type": "object",
+                "additionalProperties": false,
+                "minProperties": 1,
+                "properties": {
+                  "readView": {
+                    "type": "boolean"
+                  },
+                  "writeEdit": {
+                    "type": "boolean"
+                  },
+                  "systemGlobalInput": {
+                    "type": "boolean"
+                  },
+                  "desktopAllScreens": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        ]
       },
-      "description": "Change the global routine Read / View and Write / Edit prompt setting only after protected local human confirmation. Default prompt needs no application registration. Suppress does not authorize protected or inaccessible targets, desktop-wide reads, global/system input, launch/close, settings, or bypass human priority, Stop or private control. Explicit denials remain enforced. Changes invalidate prior approvals and observation/element references; reconcile from fresh evidence. No caller can approve this setting itself.",
-      "annotations": { "readOnlyHint": false, "destructiveHint": true, "openWorldHint": false }
+      "description": "After protected local human confirmation, independently set persistent Read/View, Write/Edit, System/Global Input and Desktop/All Screens permissions globally across projects or for a verified application. Permission true means standing ALLOW; false means ASK. Application matching defaults to exact verified identity; executable-name is an explicit broader Win32 choice. Explicit DENY wins. All Screens is observation only and an application rule requires approvalWindowId on desktop observation. Changes invalidate approvals and references. Codex prompts and all safety checks remain independent. Legacy routineApprovalMode changes only Read/View and Write/Edit together.",
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": false
+      }
     },
     {
       "name": "desktop.observe",
@@ -77,25 +174,91 @@
               {
                 "type": "object",
                 "additionalProperties": false,
-                "required": ["kind", "rect", "within"],
+                "required": [
+                  "kind",
+                  "rect",
+                  "within"
+                ],
                 "properties": {
-                  "kind": { "const": "region" },
+                  "kind": {
+                    "const": "region"
+                  },
                   "rect": {
                     "type": "object",
                     "additionalProperties": false,
-                    "required": ["x", "y", "width", "height"],
+                    "required": [
+                      "x",
+                      "y",
+                      "width",
+                      "height"
+                    ],
                     "properties": {
-                      "x": { "type": "integer" },
-                      "y": { "type": "integer" },
-                      "width": { "type": "integer", "minimum": 1 },
-                      "height": { "type": "integer", "minimum": 1 }
+                      "x": {
+                        "type": "integer"
+                      },
+                      "y": {
+                        "type": "integer"
+                      },
+                      "width": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "height": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
                     }
                   },
                   "within": {
                     "oneOf": [
-                      { "type": "object", "additionalProperties": false, "required": ["kind"], "properties": { "kind": { "const": "desktop" } } },
-                      { "type": "object", "additionalProperties": false, "required": ["kind", "id"], "properties": { "kind": { "const": "monitor" }, "id": { "type": "string", "minLength": 1, "maxLength": 200 } } },
-                      { "type": "object", "additionalProperties": false, "required": ["kind", "id"], "properties": { "kind": { "const": "window" }, "id": { "type": "string", "minLength": 1, "maxLength": 200 } } }
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "kind"
+                        ],
+                        "properties": {
+                          "kind": {
+                            "const": "desktop"
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "kind",
+                          "id"
+                        ],
+                        "properties": {
+                          "kind": {
+                            "const": "monitor"
+                          },
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          }
+                        }
+                      },
+                      {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "kind",
+                          "id"
+                        ],
+                        "properties": {
+                          "kind": {
+                            "const": "window"
+                          },
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          }
+                        }
+                      }
                     ]
                   }
                 }
@@ -116,6 +279,12 @@
             "minLength": 1,
             "maxLength": 200,
             "description": "For the same window, return cumulative changes since this server-lifetime full observation baseline."
+          },
+          "approvalWindowId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "For desktop/monitor/contained-region observation only, a verified current application window whose All Screens standing rule is evaluated. Revalidated before evidence release. Capture still includes the requested desktop surface; no write/input grant."
           }
         }
       },
@@ -137,10 +306,16 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 200
+          },
+          "windowId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "description": "Optional current exact window reference for effective application permission reporting; no UI content is sampled."
           }
         }
       },
-      "description": "Read current desktop-control state and metadata without returning image bytes. Reports private-human status and bounded content-free operation certainty for this server lifetime; unknown prior-server operations require fresh reconciliation, never replay.",
+      "description": "Read current desktop-control state and metadata without returning image bytes. Reports private-human status and bounded content-free operation certainty for this server lifetime; unknown prior-server operations require fresh reconciliation, never replay. Reports persistent global group decisions and, for a verified windowId, effective application decisions separately from execution safety and Codex tool approval.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,

@@ -1,6 +1,5 @@
 {
-  "schemaVersion": "4.0",
-  "routineApprovalMode": "prompt",
+  "schemaVersion": "5.0",
   "approvalGroups": {
     "readView": "ASK",
     "writeEdit": "ASK",
@@ -22,7 +21,12 @@
   },
   "emergencyStop": {
     "enabled": true,
-    "hotkey": ["CTRL", "ALT", "SHIFT", "F12"]
+    "hotkey": [
+      "CTRL",
+      "ALT",
+      "SHIFT",
+      "F12"
+    ]
   },
   "applications": []
 }

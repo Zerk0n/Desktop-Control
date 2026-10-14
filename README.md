@@ -1,17 +1,38 @@
-# Desktop Control 0.5.1
+# Desktop Control 0.6.0
 
-Desktop Control is a local Windows Codex plugin for authorized desktop observation and interaction. This distribution includes the Windows runtime, MCP contract 1.26.0 (31 tools), and the `desktop-control` agent skill. The local marketplace entry is [`.agents/plugins/marketplace.json`](.agents/plugins/marketplace.json); the plugin is under [`plugins/codex-desktop-control`](plugins/codex-desktop-control).
+Desktop Control is a local Windows Codex plugin for authorized desktop observation and interaction. This distribution includes the Windows runtime, MCP contract 1.27.0 (31 tools), and the desktop-control agent skill. The local marketplace entry is [.agents/plugins/marketplace.json](.agents/plugins/marketplace.json); the plugin is under [plugins/codex-desktop-control](plugins/codex-desktop-control).
 
-0.5.1 improves lifecycle reliability and failure attribution. Stale windows, controls and observation coordinates retain their actual failure classification; explicit request cancellation during approval remains cancellation. Foreground receipts and bounded operation history identify privacy-safe causes, execution stages and requested restoration/activation/input effects. Eligible transient foreground sampling after a window request can recover through bounded read-only re-sampling with fresh safety, identity and authorization checks. Window requests, physical input and uncertain mutations are never replayed.
+0.6.0 adds independent, persistent standing approval decisions for four groups:
 
-Real installed-Codex-plugin acceptance covered repeated foreground preparation, programmatic monitor movement in both directions and actual human dragging. Movement preserved authority for the same verified window; held human input safely refused preparation, and a fresh operation succeeded after independently neutral input. Both physical monitors used 96 DPI; differing-DPI coordinates were tested synthetically. Fresh geometry/evidence is still required, recreated controls remain stale, and genuine Windows focus restrictions may require human activation. The original AD Admin Manager incidents lack their initiating evidence and are not declared reproduced.
+| Group | Meaning | Global and application scope |
+| --- | --- | --- |
+| Read/View | Observe and inspect an authorized application | Supported |
+| Write/Edit | Authorized application changes | Supported |
+| Global Input | Guarded physical interaction with a verified target | Supported |
+| Full Desktop / All Screens | Observe the requested desktop, monitor or contained region | Supported |
 
-0.5.0 deliberately separates ordinary application access from operation approval. No application registration, allowlist entry or policy edit is needed for an ordinary accessible app. Before approval, discovery returns only minimal target-identifying metadata, not window titles, UI content or pixels. Scoped Read / View approvals admit capabilities, full/incremental UI-state reads and waits; Write / Edit is independent. Exact identity, current authorization, expiry/revocation and last-moment safety checks remain mandatory.
+Global settings apply across Codex projects using the same user policy. Application settings default to verified exact executable identity or packaged AUMID; broader executable-name matching is an explicit choice. Ordinary applications need no registration or manual policy edit: they remain usable through normal approval when no standing grant applies.
 
-Routine local prompts remain enabled by default. `desktop.configure_approvals` offers an optional user-controlled setting only after protected local human confirmation. Suppression affects eligible ordinary-app Read / View and Write / Edit prompts—not explicit denials, desktop-wide/global/lifecycle decisions, private control, Emergency Stop or Windows security boundaries. Codex host approvals remain independent. Existing configurations are read compatibly without destructive automatic rewriting; explicit denials remain effective, and confirmed legacy migration conservatively preserves them without expanding narrow permissions.
+Inspect settings through desktop.get_state, optionally with a fresh windowId for application decisions. Configure the existing desktop.configure_approvals tool, for example:
 
-This release also includes bounded observation recovery and execution/verification corrections from the unreleased 0.4.5 work. An authorized foreground request can restore a minimized target and verify foreground, active-window and keyboard focus when Windows permits it. Background operations remain in the background. Refusals and uncertain side effects are not permission to bypass a guard or replay an action.
+```json
+{"scope":"global","permissions":{"readView":true,"writeEdit":false,"systemGlobalInput":false,"desktopAllScreens":false}}
+```
 
-For normal agent work, discover an exact target with `desktop.windows` or bounded `desktop.applications`, obtain scoped approval through `desktop.capabilities` or a read, then use `desktop.observe` and semantic `desktop.interact` where admissible. Use `desktop.act` or fresh-frame visual input only when needed. `desktop.focus_window` prepares a necessary foreground target before separate input admission; `desktop.wait_for` and bounded `desktop.run` coordinate workflows. The bundled skill describes identity, approvals, receipts, private human control and safe recovery. Actual tool availability depends on the loaded host/runtime and configuration, not the manifest alone.
+```json
+{"scope":"application","windowId":"<fresh window reference>","permissions":{"writeEdit":true}}
+```
 
-Desktop Control does not infer generic application readiness or automatically reacquire a recreated control from similar properties. UIA event subscriptions remain deferred, and provider-pattern coverage varies by application. This release does not establish unrestricted Computer Use or complete representative-application, visual-review and display-hardware parity. OUT-130 remains deferred. Use the normal authorization flow and verify effects before consequential follow-up actions.
+Every change requires protected local human confirmation, including revocation. True selects ALLOW, false selects ASK, and omitted groups stay unchanged. Application ASK is an exception to broader ALLOW. Explicit global DENY wins, followed by applicable application DENY, application ASK, application ALLOW, then the global decision. Global ASK does not delete independent application grants.
+
+Application-selected Full Desktop observation uses approvalWindowId on a desktop/monitor/contained-region desktop.observe request. It authorizes observation of the requested surface, not just the selected application's pixels, and grants no write or input authority. [The bundled permissions guide](plugins/codex-desktop-control/skills/desktop-control/references/permissions.md) explains supported examples and scope.
+
+New V5 policy defaults all four groups to ASK. Existing user configuration is preserved without startup migration, merging or automatic permission expansion. Confirmed V3/V4 updates preserve existing effective decisions and denials; V1/V2 independent edits return POLICY_MIGRATION_REQUIRED. Legacy routine configuration and application authoring remain compatible. Policy data is outside the installation and cache lifecycle.
+
+Standing approval affects eligible Desktop Control capability prompts. Codex outer tool approvals remain independent. Emergency Stop, private control, human-input priority, neutral input ownership, monitor/desktop continuity, exact target revalidation, authorization revocation, request cancellation, deadlines and Windows security boundaries always apply. Failed admission dispatches no unauthorized input, and uncertain actions are never automatically replayed.
+
+This release retains 0.5.1 lifecycle diagnostics and bounded read-only foreground re-sampling. Windows foreground restrictions may still require human activation; stale windows, controls and frame coordinates require fresh evidence. Human activity can safely interrupt physical interaction. Provider-pattern coverage varies by application; this release does not solve every hung UIA provider or establish full Computer Use parity. OUT-130 remains deferred.
+
+Accepted source verification includes a zero-warning Release build, 632 unit tests, 70 Windows integration tests, a focused TestApp workflow and genuine protected source confirmations with restart persistence. One existing opt-in human private-control test was skipped. Installation acceptance was deliberately limited to runtime identity, candidate/cache binary parity, the catalog, health, unchanged user policy and retained 0.5.1 rollback. No extensive post-install GUI or physical-input testing was performed.
+
+The tagged repository contains the validated portable marketplace payload and integrity inventory, following the established release convention without separate binary assets.
