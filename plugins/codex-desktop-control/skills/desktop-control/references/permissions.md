@@ -1,5 +1,7 @@
 # Standing approval configuration (source 0.6.0 / MCP 1.27.0)
 
+Source 0.12.0 shell exception: standing application/global ALLOW and routine suppression never authorize exact shell scopes. Each supported shell read and interaction requires a new operation-bound local confirmation; applicable DENY remains effective. No shell setting is persisted or exposed by configure_approvals. Do not change policy to bypass an unsupported or unattributed surface.
+
 All four standing groups are independent: `readView`, `writeEdit`, `systemGlobalInput`, `desktopAllScreens`. No manual application registration or JSON edit is required. Discover a current opaque window reference when choosing application scope.
 
 - Inspect globals: `desktop.get_state({})`; inspect the selected app: `desktop.get_state({windowId:"<fresh window>"})`. Read result.approvalSettings.global/application and matchingRules. These report standing policy, not permission to bypass safety or the presence/expiry of every transient operation grant.

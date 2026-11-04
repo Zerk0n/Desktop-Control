@@ -1,38 +1,47 @@
-# Desktop Control 0.6.0
+# Desktop Control 0.14.0
 
-Desktop Control is a local Windows Codex plugin for authorized desktop observation and interaction. This distribution includes the Windows runtime, MCP contract 1.27.0 (31 tools), and the desktop-control agent skill. The local marketplace entry is [.agents/plugins/marketplace.json](.agents/plugins/marketplace.json); the plugin is under [plugins/codex-desktop-control](plugins/codex-desktop-control).
+Desktop Control is a local Windows Codex plugin for authorized visual observation and guarded UI interaction. This release contains MCP contract **1.35.0**, **31 tools**, a self-contained Windows x64 runtime, and the bundled `desktop-control` consumer skill.
 
-0.6.0 adds independent, persistent standing approval decisions for four groups:
+## Install with the official Codex marketplace commands
 
-| Group | Meaning | Global and application scope |
-| --- | --- | --- |
-| Read/View | Observe and inspect an authorized application | Supported |
-| Write/Edit | Authorized application changes | Supported |
-| Global Input | Guarded physical interaction with a verified target | Supported |
-| Full Desktop / All Screens | Observe the requested desktop, monitor or contained region | Supported |
+From an external terminal, with owning Codex sessions closed normally:
 
-Global settings apply across Codex projects using the same user policy. Application settings default to verified exact executable identity or packaged AUMID; broader executable-name matching is an explicit choice. Ordinary applications need no registration or manual policy edit: they remain usable through normal approval when no standing grant applies.
-
-Inspect settings through desktop.get_state, optionally with a fresh windowId for application decisions. Configure the existing desktop.configure_approvals tool, for example:
-
-```json
-{"scope":"global","permissions":{"readView":true,"writeEdit":false,"systemGlobalInput":false,"desktopAllScreens":false}}
+```powershell
+codex plugin marketplace add https://github.com/Zerk0n/Desktop-Control.git --ref v0.14.0
+codex plugin add codex-desktop-control@desktop-control-local
 ```
 
-```json
-{"scope":"application","windowId":"<fresh window reference>","permissions":{"writeEdit":true}}
+Then reopen Codex. Existing marketplace registrations must be inspected before changing their source; a marketplace with this name cannot be added from a second source. Do not remove the installed plugin to repoint its marketplace: plugin removal can affect its user configuration. Keep existing user approvals and application policy. The bundled `config/user-plugin.toml` is a first-install reference, not a file to overwrite user settings with.
+
+For a Git marketplace, the official refresh command is:
+
+```powershell
+codex plugin marketplace upgrade desktop-control-local
 ```
 
-Every change requires protected local human confirmation, including revocation. True selects ALLOW, false selects ASK, and omitted groups stay unchanged. Application ASK is an exception to broader ALLOW. Explicit global DENY wins, followed by applicable application DENY, application ASK, application ALLOW, then the global decision. Global ASK does not delete independent application grants.
+Refresh updates the tracked Git snapshot, not a live MCP process. A marketplace pinned to a tag stays pinned. Changing to a newer release is an explicit operation: normally close owning sessions, repoint only the marketplace to the reviewed release ref, then run `codex plugin add` and reopen Codex. Keep a validated previous payload/ref for rollback. Do not update a cache in use, force-close Codex/MCP servers or reset ownership files.
 
-Application-selected Full Desktop observation uses approvalWindowId on a desktop/monitor/contained-region desktop.observe request. It authorizes observation of the requested surface, not just the selected application's pixels, and grants no write or input authority. [The bundled permissions guide](plugins/codex-desktop-control/skills/desktop-control/references/permissions.md) explains supported examples and scope.
+Existing managed local installations can continue using the stable repository-owned `scripts/update-user-plugin.ps1 -MarketplaceRoot <validated-marketplace> -WaitForExit` from the development source checkout in an external PowerShell7 terminal. It reuses the established installer/rollback contract and needs no per-version generated script. The public runtime payload is unchanged by that maintenance tooling; this distribution does not contain the development checkout.
 
-New V5 policy defaults all four groups to ASK. Existing user configuration is preserved without startup migration, merging or automatic permission expansion. Confirmed V3/V4 updates preserve existing effective decisions and denials; V1/V2 independent edits return POLICY_MIGRATION_REQUIRED. Legacy routine configuration and application authoring remain compatible. Policy data is outside the installation and cache lifecycle.
+The isolated CLI verification used Codex0.166.0-alpha.6: Git marketplace add/refresh at the established v0.6.0 ref; local0.6.0 ->0.14.0 marketplace repoint and plugin add; repeated add; retained plugin approvals and unrelated sentinel settings. Local-directory marketplace refresh is unsupported and correctly refused. Current installed0.14.0 remains on its validated local retained source; no silent migration or background update is enabled.
 
-Standing approval affects eligible Desktop Control capability prompts. Codex outer tool approvals remain independent. Emergency Stop, private control, human-input priority, neutral input ownership, monitor/desktop continuity, exact target revalidation, authorization revocation, request cancellation, deadlines and Windows security boundaries always apply. Failed admission dispatches no unauthorized input, and uncertain actions are never automatically replayed.
+## Visual control
 
-This release retains 0.5.1 lifecycle diagnostics and bounded read-only foreground re-sampling. Windows foreground restrictions may still require human activation; stale windows, controls and frame coordinates require fresh evidence. Human activity can safely interrupt physical interaction. Provider-pattern coverage varies by application; this release does not solve every hung UIA provider or establish full Computer Use parity. OUT-130 remains deferred.
+- Authorized window/region PNGs reach the image-capable Codex consumer. Codex performs visual judgment; screenshot metadata, OCR, UIA and pixel comparison alone are not visual understanding.
+- A successful `desktop.run` ending in `observe` transfers its final PNG. Earlier images and failed/uncertain sequence images are withheld. Existing receipt and no-replay rules remain authoritative.
+- Dense whole-window UI-state overflow preserves authorized pixels with explicit incomplete sampling and no incremental baseline. Scoped complete UIA reads remain available.
+- UI search reports traversal completeness and limits; unrealized virtual items and separate popup windows are not silently included.
+- Optional bounded local Windows OCR and visual candidates provide supporting evidence. No cloud inference or model downloads.
+- Exact identity, current authorization, session continuity, human priority, private control, Stop and stale-frame rejection remain enforced. Application ALLOW does not authorize Windows shell scopes.
 
-Accepted source verification includes a zero-warning Release build, 632 unit tests, 70 Windows integration tests, a focused TestApp workflow and genuine protected source confirmations with restart persistence. One existing opt-in human private-control test was skipped. Installation acceptance was deliberately limited to runtime identity, candidate/cache binary parity, the catalog, health, unchanged user policy and retained 0.5.1 rollback. No extensive post-install GUI or physical-input testing was performed.
+## Verification and limitations
 
-The tagged repository contains the validated portable marketplace payload and integrity inventory, following the established release convention without separate binary assets.
+The exact packaged0.14.0 runtime passed scoped installed-Codex WPF and WinForms image delivery, Run final-image review, independent action postconditions, dense UIA/search, stale-reference and private-control checks. Separate installed-binary processes verified Stop and explicit DENY without changing the active host policy. Source security and regression evidence remains scoped; passing fixtures is not universal compatibility.
+
+Source checkpoint: `6adff7f2ce75451dfe1265b7c4ce3be86fa984e4`. Package inventory SHA256: `6df2e7030cf0c3bbc72edb35c817cf7e63fb82e8203840c767792007314353b0`. The inventory hashes every runtime/contract/skill payload file; markers prove parity and completeness, not publisher authenticity.
+
+The previous0.6.0 payload remains the validated local rollback. Actual rollback of the working host was not exercised during promotion. An earlier promotion changed whole-file Codex configuration bytes; its cause cannot be reconstructed from the retained hash alone. Effective Desktop Control policy and approvals were verified unchanged. New maintenance checks compare protected configuration while allowing only the intended marketplace section to change; ambiguous multiline TOML fails closed for manual review.
+
+PiP/Child Sessions/COM bootstrap are retired. Browser/API same-target integration, unsupported shell surfaces, broad real-application/DPI compatibility, and OUT-130 remain open. No isolated-desktop or universal compatibility claim is made.
+
+The tagged repository follows the established distribution convention: validated portable marketplace payload and integrity inventory, with no separate binary release assets.

@@ -1,8 +1,20 @@
 {
-  "contractVersion": "1.27.0",
+  "contractVersion": "1.35.0",
   "serverName": "desktop-control",
   "toolPrefix": "desktop.",
   "coordinateSpace": "physical-virtual-desktop-pixels",
+  "sessionTracing": {
+    "environmentVariable": "CODEX_DESKTOP_CONTROL_TRACE",
+    "enabledValue": "1",
+    "defaultEnabled": false,
+    "storage": "current-server-memory-only",
+    "capacity": 256,
+    "retentionMs": 300000,
+    "resultPath": "desktop.get_state.result.sessionTrace",
+    "correlationField": "traceCallId",
+    "recordFields": ["sequence", "callId", "parentCallId", "elapsedMs", "tool", "phase", "ok", "code", "delivery", "effect", "stage", "retry", "recovery", "verification"],
+    "authority": "diagnostic-only-never-replay-or-retry-authority"
+  },
   "tools": [
     {
       "name": "desktop.configure_approvals",
@@ -274,6 +286,20 @@
             "default": false,
             "description": "For a window, include a complete bounded control-state snapshot; requires independent explicit UIA read authority."
           },
+          "uiStateRootElementId": {
+            "type": "string", "minLength": 1, "maxLength": 200,
+            "description": "Exact same-window UIA subtree root for a full includeUiState baseline. Complete UI state covers only this exposed ControlView subtree; pixels still cover the window. Incremental and stability calls inherit this immutable scope. Omit on incremental calls."
+          },
+          "includeTextRegions": {
+            "type": "boolean",
+            "default": false,
+            "description": "Opt in to local Windows OCR of the same full exact-window or window-contained region capture. No downloads or cloud processing. Bounded recognized words and image-local rectangles are untrusted content, not controls, unique targets, action permission or model visual understanding. Incompatible with incremental/desktop/monitor capture. Missing language/provider, busy or timed-out recognition is explicitly unavailable. Visual input still requires the returned frameObservationId and independent desktop.act authorization."
+          },
+          "includeVisualCandidates": {
+            "type": "boolean",
+            "default": false,
+            "description": "For a full exact-window capture or window-contained region, analyze bounded filled color regions locally from the same image. Not compatible with sinceObservationId. Candidates are uncertain pixel evidence, not labels, UIA elements or actionable targets. Use native UIA first; any visual input requires desktop.act with the returned frameObservationId and normal independent physical authority."
+          },
           "sinceObservationId": {
             "type": "string",
             "minLength": 1,
@@ -288,7 +314,7 @@
           }
         }
       },
-      "description": "Capture current desktop, monitor, or authorized window pixels and physical-coordinate metadata; optionally return bounded window changes since an authorized baseline. includeUiState requires a complete tree of at most 128 controls; UIA_INCOMPLETE is not absence or unchanged state. Explicit pixel-only observation or scoped UI reads remain recovery paths. Transient coherent-read failure may retry once within a shared bound under unchanged current authority/identity, never rebuild a stale baseline or replay input.",
+      "description": "Capture current desktop, monitor, or authorized window pixels and physical-coordinate metadata; optionally return bounded window changes since an authorized baseline. includeUiState creates a baseline only with a complete tree of at most 128 controls. Full-window node-limit overflow retains pixels with incomplete uiStateSampling and no baseline; scoped, identity and authorization failures stay terminal. Explicit pixel-only observation or scoped UI reads remain recovery paths. Transient coherent-read failure may retry once within a shared bound under unchanged current authority/identity, never rebuild a stale baseline or replay input.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -315,7 +341,7 @@
           }
         }
       },
-      "description": "Read current desktop-control state and metadata without returning image bytes. Reports private-human status and bounded content-free operation certainty for this server lifetime; unknown prior-server operations require fresh reconciliation, never replay. Reports persistent global group decisions and, for a verified windowId, effective application decisions separately from execution safety and Codex tool approval.",
+      "description": "Read current desktop-control state and metadata without returning image bytes. Reports private-human status and bounded content-free operation certainty for this server lifetime; unknown prior-server operations require fresh reconciliation, never replay. Reports persistent global group decisions and, for a verified windowId, effective application decisions separately from execution safety and Codex tool approval. Source 1.29 adds content-free desktopContinuity (monitoringAvailable, securityGeneration, monitorGeneration, displayGeneration, lastTransition) and uiaProvider (maxWorkers, workers, pending, unresolvedWorkers, mutationPending, bounded code/stage failures) health. No window identity, UI text, provider exception messages or automatic retry authority is included.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -348,10 +374,15 @@
       "inputSchema": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "windowId"
+        "oneOf": [
+          { "required": ["windowId"], "not": { "required": ["shellSurface"] } },
+          { "required": ["shellSurface"], "not": { "required": ["windowId"] } }
         ],
         "properties": {
+          "shellSurface": {
+            "type": "string",
+            "enum": ["taskbar", "tray", "start", "notifications"]
+          },
           "windowId": {
             "type": "string",
             "minLength": 1,
@@ -372,10 +403,19 @@
           "includeOffscreen": {
             "type": "boolean",
             "default": false
+          },
+          "skeleton": {
+            "type": "boolean",
+            "default": false
+          },
+          "rootElementId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
           }
         }
       },
-      "description": "Read a bounded Windows UI Automation tree for an authorized window.",
+      "description": "Read a bounded UIA tree with explicit completeness. Select windowId OR shellSurface. Taskbar/tray shell reads require fresh exact operation approval and return structure only, with labels, IDs from applications, bounds and content withheld. Start/notifications fail SHELL_SURFACE_UNSUPPORTED; unknown origin is never published. Shell references permit only separately approved native-root Expand/Collapse; unattributed descendants have no actions and cannot be operated. Invoke, launch and notification actions are refused. Use skeleton for a structural overview, then rootElementId to inspect an exact subtree in the same authorized window. Provider deadlines and capacity are bounded per window; UIA_PROVIDER_TIMEOUT/UIA_PROVIDER_BUSY/UIA_CAPACITY require provider inspection, not automatic retry. Disconnection retires exact references; fresh discovery never authorizes replay. Desktop/session continuity failures are terminal for the request.",
       "annotations": {
         "readOnlyHint": true,
         "destructiveHint": false,
@@ -457,7 +497,7 @@
               "enabled": { "type": "boolean" }, "offscreen": { "type": "boolean" } } }
         }
       },
-      "description": "Inspect bounded current capability admission for an exact accessible window or control. Uses ordinary Read / View approval when needed, without application registration. No UI mutation, sensitive readback or target reacquisition occurs. The result grants no write authority or execution reservation; every later operation independently revalidates. Unsupported, prerequisite, authorization and evidence failures stay distinct.",
+      "description": "Inspect bounded current capability admission and advisory automation routing for an exact accessible window or control. Uses ordinary Read / View approval. Prefers eligible native UIA, then positively supported Win32; physical input remains explicit. External browser/DOM and application API/MCP availability must be discovered independently by the host; no external association, authority or invocation is inferred. No UI mutation, sensitive readback or target reacquisition occurs. Every later operation independently revalidates. Unsupported, prerequisite, authorization and evidence failures stay distinct. Consult the prior operation disposition.methodChange before considering another method; never replay dispatched or uncertain work.",
       "annotations": { "readOnlyHint": true, "destructiveHint": false, "openWorldHint": false }
     },
     {
@@ -1146,7 +1186,7 @@
           }
         ]
       },
-      "description": "Exact provider-backed semantic action on an independently authorized element. New expand/collapse, set_range_value and scroll_into_view require independent Read / View approval for bounded state verification; no generic background guarantee. Provider completion is dispatched, not effect verification; Invoke may remove its control and remains not_verified. Current owner authority is checked independently after dispatch. An uncertain receipt is never replay authority; use separately authorized reads/waits to observe a destination without rewriting historical execution.",
+      "description": "Exact provider-backed semantic action on an independently authorized element. New expand/collapse, set_range_value and scroll_into_view require independent Read / View approval for bounded state verification; no generic background guarantee. Provider completion is dispatched, not effect verification; Invoke may remove its control and remains not_verified. Current owner authority is checked independently after dispatch. An uncertain receipt is never replay authority; use separately authorized reads/waits to observe a destination without rewriting historical execution. Shell references require a fresh exact operation approval and permit only native-root Expand/Collapse with an exposed provider pattern. Application ALLOW cannot authorize them; descendant origin, other actions and lifecycle effects are refused. Readback requires a separate shell read approval.",
       "annotations": {
         "readOnlyHint": false,
         "destructiveHint": true,
@@ -2497,7 +2537,7 @@
           }
         }
       },
-      "description": "Canonical finite desktop sequence: 1–16 explicit observe/capabilities/interact/activate_ui/act/wait_for calls, up to 60 seconds and 256 KiB structured receipts. Each step independently uses normal authorization/admission; terminal failure or possible side-effect uncertainty stops later steps. No script, loop, retry, target substitution or transferable approval. Current observation references/post-state are returned without redundant image transfer; request desktop.observe explicitly when an image is needed. Entire input is bounded to 64 KiB UTF-8.",
+      "description": "Canonical finite desktop sequence: 1–16 explicit observe/capabilities/interact/activate_ui/act/wait_for calls, up to 60 seconds and 256 KiB structured receipts. Each step independently uses normal authorization/admission; terminal failure or possible side-effect uncertainty stops later steps. No script, loop, retry, target substitution or transferable approval. A successful terminal observe step forwards its PNG (at most 32 MiB base64) with imagesTransferred/imageStepIndex. Earlier or failed sequence images are withheld; no replay. Entire input is bounded to 64 KiB UTF-8.",
       "annotations": {
         "readOnlyHint": false,
         "destructiveHint": true,

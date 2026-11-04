@@ -27,7 +27,7 @@ Optional per-action positive/typed postconditions obtain independent Read/View a
 
 `finalObservation:true` is opt-in and separately capture-authorized. `postStateSinceObservationId` returns the existing complete incremental baseline's current delta and is exclusive with final observation. Neither is effect verification. Reuse sufficient receipt/post-state evidence; obtain a fresh image when visual judgment remains necessary.
 
-Run is linear: 1–16 explicit `observe`, `capabilities`, `interact`, `activate_ui`, `act`, `wait_for` steps; deadline at most 60 s, request at most 64 KiB, structured receipts at most 256 KiB. Every step retains its ordinary gate. Run transfers no images, though captures may occur and receipts contain frame IDs. Review an image outside Run before constructing visual actions; do not reuse pre-mutation pixels as post-mutation intent. Terminal failure/uncertainty stops later work; earlier effects are not transactional.
+Run is linear: 1–16 explicit `observe`, `capabilities`, `interact`, `activate_ui`, `act`, `wait_for` steps; deadline at most 60 s, request at most 64 KiB, structured receipts at most 256 KiB. Every step retains its ordinary gate. A successful Run ending in observe transfers that final PNG (32 MiB base64 maximum), identified by imageStepIndex; earlier images and all failed/cancelled sequence images are withheld. Review an image outside Run before constructing visual actions; do not reuse pre-mutation pixels as post-mutation intent. Terminal failure/uncertainty stops later work; earlier effects are not transactional.
 
 ## Semantic patterns and transient surfaces
 
