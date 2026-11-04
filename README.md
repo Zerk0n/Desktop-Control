@@ -1,47 +1,80 @@
-# Desktop Control 0.14.0
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/brand/hero-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/brand/hero-light.svg">
+  <img src="assets/brand/hero-light.svg" alt="Desktop Control. See the UI. Verify the outcome. Windows desktop control for Codex, with an Observe, Act, Verify workflow." width="1280">
+</picture>
 
-Desktop Control is a local Windows Codex plugin for authorized visual observation and guarded UI interaction. This release contains MCP contract **1.35.0**, **31 tools**, a self-contained Windows x64 runtime, and the bundled `desktop-control` consumer skill.
+# Desktop Control
 
-## Install with the official Codex marketplace commands
+**Give Codex a trustworthy view of your Windows application—and a guarded way to act on it.**
 
-From an external terminal, with owning Codex sessions closed normally:
+A local, headless MCP plugin for inspecting rendered interfaces, following UI instructions, and checking what actually changed. Codex interprets the images; Desktop Control supplies authorized observations, exact targets, and execution receipts.
+
+[Quick start](#quick-start) · [What you can do](#what-you-can-do) · [Safety](#authorization-is-part-of-the-workflow) · [Updates](docs/INSTALLATION.md#updates-and-rollback) · [Release v0.14.0](https://github.com/Zerk0n/Desktop-Control/releases/tag/v0.14.0)
+
+**Windows x64 · Codex · MCP 1.35.0 · 31 tools**
+
+## Quick start
+
+Requires Windows x64 and a Codex build with plugin/marketplace support. From an external terminal, close owning Codex sessions normally, then run:
 
 ```powershell
 codex plugin marketplace add https://github.com/Zerk0n/Desktop-Control.git --ref v0.14.0
 codex plugin add codex-desktop-control@desktop-control-local
 ```
 
-Then reopen Codex. Existing marketplace registrations must be inspected before changing their source; a marketplace with this name cannot be added from a second source. Do not remove the installed plugin to repoint its marketplace: plugin removal can affect its user configuration. Keep existing user approvals and application policy. The bundled `config/user-plugin.toml` is a first-install reference, not a file to overwrite user settings with.
+Reopen Codex. Confirm that **Desktop Control**, its `desktop-control` skill, and the intended tools are available. Review the normal host and local application approvals before acting.
 
-For a Git marketplace, the official refresh command is:
+Already registered this marketplace? [Read the existing-installation instructions](docs/INSTALLATION.md) first. Do not remove the plugin, overwrite your configuration, or force-close a locked cache to make an update work.
 
-```powershell
-codex plugin marketplace upgrade desktop-control-local
-```
+Try a bounded request on an application you own:
 
-Refresh updates the tracked Git snapshot, not a live MCP process. A marketplace pinned to a tag stays pinned. Changing to a newer release is an explicit operation: normally close owning sessions, repoint only the marketplace to the reviewed release ref, then run `codex plugin add` and reopen Codex. Keep a validated previous payload/ref for rollback. Do not update a cache in use, force-close Codex/MCP servers or reset ownership files.
+> Inspect this window for clipped text, overlap, spacing, and readability. Show the image evidence. Make no changes yet.
 
-Existing managed local installations can continue using the stable repository-owned `scripts/update-user-plugin.ps1 -MarketplaceRoot <validated-marketplace> -WaitForExit` from the development source checkout in an external PowerShell7 terminal. It reuses the established installer/rollback contract and needs no per-version generated script. The public runtime payload is unchanged by that maintenance tooling; this distribution does not contain the development checkout.
+Or, on a disposable UI fixture:
 
-The isolated CLI verification used Codex0.166.0-alpha.6: Git marketplace add/refresh at the established v0.6.0 ref; local0.6.0 ->0.14.0 marketplace repoint and plugin add; repeated add; retained plugin approvals and unrelated sentinel settings. Local-directory marketplace refresh is unsupported and correctly refused. Current installed0.14.0 remains on its validated local retained source; no silent migration or background update is enabled.
+> Save these preferences once, independently check the saved status, then show me a fresh image. Stop if the target changes or execution is uncertain.
 
-## Visual control
+## Observe → Act → Verify
 
-- Authorized window/region PNGs reach the image-capable Codex consumer. Codex performs visual judgment; screenshot metadata, OCR, UIA and pixel comparison alone are not visual understanding.
-- A successful `desktop.run` ending in `observe` transfers its final PNG. Earlier images and failed/uncertain sequence images are withheld. Existing receipt and no-replay rules remain authoritative.
-- Dense whole-window UI-state overflow preserves authorized pixels with explicit incomplete sampling and no incremental baseline. Scoped complete UIA reads remain available.
-- UI search reports traversal completeness and limits; unrealized virtual items and separate popup windows are not silently included.
-- Optional bounded local Windows OCR and visual candidates provide supporting evidence. No cloud inference or model downloads.
-- Exact identity, current authorization, session continuity, human priority, private control, Stop and stale-frame rejection remain enforced. Application ALLOW does not authorize Windows shell scopes.
+1. **Observe** an authorized window or detail region. Inspect the actual image, with UIA or optional local OCR as supporting evidence.
+2. **Act** through a supported semantic method, or explicitly authorized physical input, bound to the current target.
+3. **Verify** with a separate observation or postcondition. A successful Run ending in `observe` delivers its final image.
 
-## Verification and limitations
+A dispatch receipt is not proof of the intended effect. Uncertain actions are never automatically replayed.
 
-The exact packaged0.14.0 runtime passed scoped installed-Codex WPF and WinForms image delivery, Run final-image review, independent action postconditions, dense UIA/search, stale-reference and private-control checks. Separate installed-binary processes verified Stop and explicit DENY without changing the active host policy. Source security and regression evidence remains scoped; passing fixtures is not universal compatibility.
+## What you can do
 
-Source checkpoint: `6adff7f2ce75451dfe1265b7c4ce3be86fa984e4`. Package inventory SHA256: `6df2e7030cf0c3bbc72edb35c817cf7e63fb82e8203840c767792007314353b0`. The inventory hashes every runtime/contract/skill payload file; markers prove parity and completeness, not publisher authenticity.
+| Task | Evidence and boundaries |
+| --- | --- |
+| Review UI quality | Actual rendered images for clipping, overlap, hierarchy, spacing, and readability. The consuming model makes the judgment. |
+| Follow UI instructions | Exact UIA targets, supported native routing, and guarded physical input with independent authorization. |
+| Inspect dense interfaces | Scoped UIA drill-down and bounded search with explicit completeness. Incomplete enrichment can retain the authorized image without creating a baseline. |
+| Check an outcome | Fresh observations and typed postconditions; ordered Run receipts retain uncertainty. |
+| Use supporting visual evidence | Optional bounded local Windows OCR and visual candidates. Neither proves actionability or visual quality. |
 
-The previous0.6.0 payload remains the validated local rollback. Actual rollback of the working host was not exercised during promotion. An earlier promotion changed whole-file Codex configuration bytes; its cause cannot be reconstructed from the retained hash alone. Effective Desktop Control policy and approvals were verified unchanged. New maintenance checks compare protected configuration while allowing only the intended marketplace section to change; ambiguous multiline TOML fails closed for manual review.
+## Authorization is part of the workflow
 
-PiP/Child Sessions/COM bootstrap are retired. Browser/API same-target integration, unsupported shell surfaces, broad real-application/DPI compatibility, and OUT-130 remain open. No isolated-desktop or universal compatibility claim is made.
+Read/View, Write/Edit, System/Global Input, and Desktop/All Screens are separate permissions. New policy defaults to **ASK**; applicable DENY remains effective. A read, target reference, or earlier approval grants no authority for a later action.
 
-The tagged repository follows the established distribution convention: validated portable marketplace payload and integrity inventory, with no separate binary release assets.
+Exact window/session identity, fresh-frame checks, human priority, private control, and Emergency Stop remain enforced. Application ALLOW does not grant shell authority. The MCP runtime is local-only, with no outbound runtime dependency; your Codex consumer's data handling is separate.
+
+[Permission guide](plugins/codex-desktop-control/skills/desktop-control/references/permissions.md) · [Security and reporting](SECURITY.md)
+
+## Know the limits
+
+The exact 0.14.0 package passed scoped installed-Codex **WPF and WinForms** image delivery, action/postcondition, dense observation, stale-reference, and private-control checks. Separate installed-binary checks covered Stop and explicit DENY. This is scoped evidence, not universal Windows compatibility.
+
+Browser/API same-target integration and some Windows shell surfaces remain unavailable. Virtualized content and separate popups require explicit discovery. PiP, Child Sessions, and COM bootstrap are retired. OUT-130 remains open.
+
+Git-marketplace refresh hit Codex's 30-second clone deadline for this payload on the tested host. Keep the last validated snapshot; [use a validated local checkout when needed](docs/INSTALLATION.md#when-git-marketplace-refresh-times-out). Refresh alone never replaces a running MCP process.
+
+## Documentation
+
+- [Installation, updates, and rollback](docs/INSTALLATION.md)
+- [31-tool MCP contract](plugins/codex-desktop-control/contracts/mcp-tools.v1.json)
+- [Consumer skill and workflows](plugins/codex-desktop-control/skills/desktop-control/SKILL.md)
+- [Verification scope and package integrity](docs/VERIFICATION.md)
+- [Contributing and support](CONTRIBUTING.md)
+
+This repository distributes the packaged plugin; it is not the development source tree. No project license has been declared. Do not infer an open-source license or redistribution rights from public availability; see [contribution guidance](CONTRIBUTING.md#license-status).

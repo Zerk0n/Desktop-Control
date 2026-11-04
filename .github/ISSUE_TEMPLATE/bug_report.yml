@@ -1,0 +1,44 @@
+name: Bug report
+description: Report a reproducible installation, observation or interaction problem.
+body:
+  - type: markdown
+    attributes:
+      value: "Use synthetic examples and sanitized diagnostics only. For suspected vulnerabilities, follow SECURITY.md rather than posting exploit details here."
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Windows, Codex and Desktop Control versions.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Installation or update
+        - Observation or images
+        - UIA or target identity
+        - Guarded interaction or verification
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: Steps, expected versus observed behavior, and application technology if known. Use a disposable fixture.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence
+      description: Error classification and whether input was dispatched, refused or uncertain. No private screenshots, raw configuration or application content.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy
+      options:
+        - label: I have removed private data and reviewed SECURITY.md.
+          required: true
