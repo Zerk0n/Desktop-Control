@@ -5,7 +5,7 @@
 Use the tagged Windows x64 distribution with a Codex build that supports plugin marketplaces. Close owning Codex sessions normally from an external terminal:
 
 ```powershell
-codex plugin marketplace add https://github.com/Zerk0n/Desktop-Control.git --ref v0.14.0
+codex plugin marketplace add https://github.com/Zerk0n/Desktop-Control.git --ref v0.14.1
 codex plugin add codex-desktop-control@desktop-control-local
 ```
 
@@ -26,7 +26,7 @@ A marketplace name cannot be added from a second source. To repoint an existing 
 
 ```powershell
 codex plugin marketplace remove desktop-control-local
-codex plugin marketplace add https://github.com/Zerk0n/Desktop-Control.git --ref v0.14.0
+codex plugin marketplace add https://github.com/Zerk0n/Desktop-Control.git --ref v0.14.1
 codex plugin add codex-desktop-control@desktop-control-local
 ```
 

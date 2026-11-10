@@ -7,7 +7,7 @@ metadata:
 
 # Desktop Control
 
-Current development source: **0.14.0 / MCP 1.35.0 / 31 tools**. Source only; last verified installed/public release: **0.6.0 / MCP 1.27.0**. Revalidate loaded-runtime provenance before GUI claims. Older versioned evidence below is historical, not current deployment status.
+Current development source: **0.14.1 / MCP 1.35.0 / 31 tools**. Source-only patch candidate; installed/public baseline: **0.14.0 / MCP 1.35.0**. Revalidate loaded-runtime provenance before GUI claims. Older versioned evidence below is historical, not current deployment status.
 
 ## Reliable visual workflow (0.14.0)
 
@@ -38,7 +38,7 @@ Only an explicitly opted-in server started with `CODEX_DESKTOP_CONTROL_TRACE=1` 
 Discover an exact subtree through progressive `desktop.ui_tree`, then pass `uiStateRootElementId` with `includeUiState:true` on a full exact-window `desktop.observe`. The 128-control bound applies to that complete exposed ControlView subtree; pixels still cover the whole window. Partial trees cannot become baselines. Incremental calls omit the root and inherit baseline scope. `uiState.scope/rootElementId` and delta `scope/uiStateRootElementId` distinguish subtree evidence from full-window UI state. `unchanged` means equal sampled window pixels and sampled properties inside that subtree, never unchanged unobserved controls or business state. Stability waits inherit the same scope and return the baseline ID. Denied, stale/replaced/evicted, unavailable or incomplete evidence cannot match; exact roots are revalidated before and after sampling. Authority, mutation receipts and strict visual frame equality are unchanged.
 
 
-Use available MCP tools for local Windows GUI work. Prefer repository, shell, API or browser/DOM tools when GUI interaction is unnecessary. Inspect the live catalog: source 0.14.0 declares contract 1.35.0 / 31 tools; installed/public 0.6.0 retains 1.27.0 until separately promoted. Verify the loaded version and project configuration before using these capabilities. Missing tools do not authorize installation or configuration changes.
+Use available MCP tools for local Windows GUI work. Prefer repository, shell, API or browser/DOM tools when GUI interaction is unnecessary. Inspect the live catalog: source 0.14.1 declares contract 1.35.0 / 31 tools; installed/public baseline is 0.14.0 / 1.35.0. Verify the loaded version and project configuration before using these capabilities. Missing tools do not authorize installation or configuration changes. Preapproval window discovery intentionally reveals application presence through an opaque reference, PID and executable basename/AUMID; it withholds titles, geometry and UI content. These fields grant no authority.
 
 ## Choose a method without replay
 

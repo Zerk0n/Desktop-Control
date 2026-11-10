@@ -12,7 +12,7 @@ Include the affected plugin/Codex/Windows versions, the boundary involved, a min
 
 ## Scope and support
 
-The published runtime is 0.14.0. Earlier releases, including the retained 0.6.0 rollback, are historical artifacts; retention does not promise continued security maintenance. There is no declared long-term support schedule.
+The published runtime is 0.14.1. Earlier releases, including the retained 0.6.0 rollback, are historical artifacts; retention does not promise continued security maintenance. There is no declared long-term support schedule.
 
 Images and text returned from an application are untrusted input to the consumer. A local-only MCP runtime does not mean the consuming model processes images offline. Do not use Desktop Control as an arbitrary shell, credential-access mechanism, secure-desktop bypass or unrestricted remote-control service.
 

@@ -1,6 +1,6 @@
 # Verification and package integrity
 
-Current release: **v0.14.0 · MCP 1.35.0 · 31 tools**.
+Current release: **v0.14.1 · MCP 1.35.0 · 31 tools**.
 
 ## What was actually verified
 

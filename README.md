@@ -10,7 +10,7 @@
 
 A local, headless MCP plugin for inspecting rendered interfaces, following UI instructions, and checking what actually changed. Codex interprets the images; Desktop Control supplies authorized observations, exact targets, and execution receipts.
 
-[Quick start](#quick-start) · [What you can do](#what-you-can-do) · [Safety](#authorization-is-part-of-the-workflow) · [Updates](docs/INSTALLATION.md#updates-and-rollback) · [Release v0.14.0](https://github.com/Zerk0n/Desktop-Control/releases/tag/v0.14.0)
+[Quick start](#quick-start) · [What you can do](#what-you-can-do) · [Safety](#authorization-is-part-of-the-workflow) · [Updates](docs/INSTALLATION.md#updates-and-rollback) · [Release v0.14.1](https://github.com/Zerk0n/Desktop-Control/releases/tag/v0.14.1)
 
 **Windows x64 · Codex · MCP 1.35.0 · 31 tools**
 
@@ -19,7 +19,7 @@ A local, headless MCP plugin for inspecting rendered interfaces, following UI in
 Requires Windows x64 and a Codex build with plugin/marketplace support. From an external terminal, close owning Codex sessions normally, then run:
 
 ```powershell
-codex plugin marketplace add https://github.com/Zerk0n/Desktop-Control.git --ref v0.14.0
+codex plugin marketplace add https://github.com/Zerk0n/Desktop-Control.git --ref v0.14.1
 codex plugin add codex-desktop-control@desktop-control-local
 ```
 

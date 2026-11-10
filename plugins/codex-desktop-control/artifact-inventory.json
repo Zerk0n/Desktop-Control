@@ -2,11 +2,11 @@
   "schemaVersion": "1.0",
   "marketplaceName": "desktop-control-local",
   "pluginName": "codex-desktop-control",
-  "pluginVersion": "0.14.0",
+  "pluginVersion": "0.14.1",
   "serverName": "codex-desktop-control",
-  "serverVersion": "0.14.0",
+  "serverVersion": "0.14.1",
   "mcpContractVersion": "1.35.0",
-  "sourceRevision": "6adff7f2ce75451dfe1265b7c4ce3be86fa984e4",
+  "sourceRevision": "fd20efc1a09ff873bbd281e978764a1a9512e395",
   "sourceInputs": [
     {
       "path": ".agents/plugins/marketplace.json",
@@ -86,7 +86,7 @@
     {
       "path": "plugins/codex-desktop-control/plugin.json",
       "length": 867,
-      "sha256": "52f81b50f1994b520993198997d51b28dd36a87657e04814401710b6d798bfa3"
+      "sha256": "70cb7d688c2431bcc8e2f27378c03c65e89ba0c7a54b061b6129f3c0691442e8"
     },
     {
       "path": "plugins/codex-desktop-control/skills/desktop-control/references/permissions.md",
@@ -105,8 +105,8 @@
     },
     {
       "path": "plugins/codex-desktop-control/skills/desktop-control/SKILL.md",
-      "length": 22232,
-      "sha256": "a26ed36d5dbd58a4b7e16cd5758d39cb0c25e975a5135106d012d9e63dead042"
+      "length": 22432,
+      "sha256": "9ec56bbb9dc10fedf317b683057c29dd097b41ce742dc11f72c0f09c4a53c039"
     },
     {
       "path": "scripts/check-source-consistency.ps1",
@@ -119,14 +119,19 @@
       "sha256": "833c8400f2d77c416dae35838da5a1b163a4be6f9721d3ce7ce4f80b15944076"
     },
     {
+      "path": "scripts/ConfigurationPreservation.psm1",
+      "length": 1070,
+      "sha256": "d1b62c31c839cfcc9a3a1b069655a085f3a28715eb0120ee1716859c4fec77f1"
+    },
+    {
       "path": "scripts/evaluate-desktop-control-skill.ps1",
       "length": 2028,
       "sha256": "f0bad794cd46c92940ac51e19ce2a579fd8df92d80bfeaa200a6fda285e6c440"
     },
     {
       "path": "scripts/manage-user-plugin.ps1",
-      "length": 10437,
-      "sha256": "f770eaae6b47e5b2c48833c6eae7d771978534c2f8aa9ed0bc0f05f4fdb9b4f3"
+      "length": 11870,
+      "sha256": "dfa6a5a2828516f49e51f9848108090fb9a0c264941e88a2953321860b11e6f3"
     },
     {
       "path": "scripts/measure-performance.ps1",
@@ -194,6 +199,11 @@
       "sha256": "984686c936597923a3cee6c3209dbd7a8a58fa4a04b01d419291f3baacf755ea"
     },
     {
+      "path": "scripts/test-configuration-preservation.ps1",
+      "length": 1789,
+      "sha256": "44c6221d7b0e2370de1650185ee9e6931917979265cd903f66752b806469cf25"
+    },
+    {
       "path": "scripts/test-cooperative-readiness.ps1",
       "length": 4937,
       "sha256": "90f826ac8b624745ef00ad7e72934eb5a98f7fe2b6d698f425dca198a950d782"
@@ -210,8 +220,8 @@
     },
     {
       "path": "scripts/test-plugin-management.ps1",
-      "length": 11207,
-      "sha256": "485f87a4f7420625b7b1c6e78bef19d00faec9dc2c02276c8971f3b04f4ffee2"
+      "length": 11336,
+      "sha256": "8536f45ab037ecc266d537d374e3ba0ab67cc1a38fdb44679d1e00b65440211a"
     },
     {
       "path": "scripts/test-quality-benchmark.ps1",
@@ -229,9 +239,14 @@
       "sha256": "c25a58266e34b707952198e462018ac12438bbdb6893d34589994e9bebab57db"
     },
     {
+      "path": "scripts/update-user-plugin.ps1",
+      "length": 3784,
+      "sha256": "bfd4f2ec2073e482c0e772617af07fc19ba64871205ffd0fd9a431ee909ccf6d"
+    },
+    {
       "path": "scripts/validate-plugin.ps1",
-      "length": 22308,
-      "sha256": "f4b8fc57547dc30da5439a798a3084fa5e6364b1f8073c66e9247b88d52d7718"
+      "length": 22327,
+      "sha256": "7574ed568a3c5d65250bf15379668810db9b11d4fd2cddaae8070b7aa240e93c"
     },
     {
       "path": "scripts/VisualAcceptance.psm1",
@@ -260,8 +275,8 @@
     },
     {
       "path": "src/CodexDesktopControl.Mcp/AuthorizationControl.cs",
-      "length": 102533,
-      "sha256": "8571c8c8b06f7a24c63ad87126716d54866d1b8c91f8de7a7f2bd6c584573464"
+      "length": 102225,
+      "sha256": "4f44558f95d21d151e3c30b05179c276ed5b3ab67db7b2178e72d5f9fe45888b"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/AutomationRouting.cs",
@@ -281,7 +296,7 @@
     {
       "path": "src/CodexDesktopControl.Mcp/CodexDesktopControl.Mcp.csproj",
       "length": 580,
-      "sha256": "d7fcdac2b865ec63db5010db3497d81c7bf17b2e1ec4246f534b833d4aac38ce"
+      "sha256": "e595da277c2767b8765e6758c61ba8aed4cf7d4d4e8824a5dd6469ce639defcb"
     },
     {
       "path": "src/CodexDesktopControl.Mcp/DesktopContinuity.cs",
@@ -433,22 +448,22 @@
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.deps.json",
       "length": 37222,
-      "sha256": "12de42037c7fbe3811c22853542b75155f47fe147f95f997876358c0cdebb7f5"
+      "sha256": "e630f13ff4b0092f967350484c9664050b4425a9f6e56a61579fb4d361bc9145"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.dll",
-      "length": 877056,
-      "sha256": "af480282108d56e5e7f147438907a93206b04da6b184f02ac1fe3ac5c93662cd"
+      "length": 876544,
+      "sha256": "76be9f2be33b4ace9558fa2384a72565e379fb7cada5415e2a3356c9565a8fe4"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.exe",
       "length": 162816,
-      "sha256": "caa767179a9f58b2c2c331dbc5cbb9dcf7b5f625696f39f0d13ab236713cc913"
+      "sha256": "655ce3e0e1c7bf7ac0b0e5185c896aa6d5b31c130d6d7b29898866dea8e7e938"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.pdb",
-      "length": 151196,
-      "sha256": "638f90e35aacc386047cec8c4799ea8e15cfd584500de92839613d46150bed35"
+      "length": 151180,
+      "sha256": "1de14afac27f81088114720bf1052991bd31c1dbe38623763e154a57cc415331"
     },
     {
       "path": "bin/win-x64/CodexDesktopControl.Mcp.runtimeconfig.json",
@@ -2468,7 +2483,7 @@
     {
       "path": "plugin.json",
       "length": 867,
-      "sha256": "52f81b50f1994b520993198997d51b28dd36a87657e04814401710b6d798bfa3"
+      "sha256": "70cb7d688c2431bcc8e2f27378c03c65e89ba0c7a54b061b6129f3c0691442e8"
     },
     {
       "path": "skills/desktop-control/references/permissions.md",
@@ -2487,8 +2502,8 @@
     },
     {
       "path": "skills/desktop-control/SKILL.md",
-      "length": 22232,
-      "sha256": "a26ed36d5dbd58a4b7e16cd5758d39cb0c25e975a5135106d012d9e63dead042"
+      "length": 22432,
+      "sha256": "9ec56bbb9dc10fedf317b683057c29dd097b41ce742dc11f72c0f09c4a53c039"
     }
   ]
 }
